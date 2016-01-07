@@ -17,7 +17,7 @@ FA=0.5;    % equal chemical composition
 CHI=0.1/NM;  % Flory-Huggins parameter
 
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
-K0=1e-2;  % minimum wavevector
+K0=1e-5;  % minimum wavevector
 KF=1e2;   % maximum wavevector
 NK=201;  % number of wavevectors
 K=transpose(logspace(log10(K0),log10(KF),NK))/RM;
@@ -31,7 +31,7 @@ axis([K0 KF 1e-2 1e1])
 % Example 2: find spinodal
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
-LAM=-0.75; % anti-correlated random copolymer
+LAM=0; % anti-correlated random copolymer
 
 FAV = linspace(0.1,0.9,38);
 CHIS = zeros(length(FAV),1);
