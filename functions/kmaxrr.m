@@ -1,4 +1,17 @@
 function [kval,sval,d2gam2]=kmaxrr(N,NM,FA,LAM)
+% Evaluate structure factor of random copolymer melt near peak, at
+% zero Flory-Huggins parameter. Chains are modeled as perfectly rigid rods
+% Usage :: [kval,sval,d2gam2]=kmaxrr(N,NM,FA,LAM)
+% Outputs ::
+%   kval = critical wavemode of instability
+%   sval = inverse of structure factor (s2invwlc) at kval
+%   d2gam2 = second derivative of sval at kval
+% Inputs ::
+%   N = number of monomers
+%   NM = number of Kuhn steps per monomer
+%   FA = fraction of A monomers
+%   LAM = degree of chemical correlation
+% Shifan Mao (1/6/16)
 
 R2=NM^2;
 

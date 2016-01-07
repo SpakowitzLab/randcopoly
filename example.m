@@ -1,4 +1,10 @@
-% Some simple examples
+% Some simple examples using functions to evaluate
+% phase behavior of random copolymers of wormlike chains
+% kmaxwlc.m and s2invwlc
+%   -> use kmaxgc.m and s2invgc.m for Gaussian chains
+%   -> use kmaxrr.m and s2invrr.m for perfectly rigid rods
+%      (expect rigid rod functions to be relatively slow with
+%       large number of monomers)
 addpath('functions')
 close all
 clear

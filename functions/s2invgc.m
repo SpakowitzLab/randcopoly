@@ -1,5 +1,16 @@
-function [val]=s2invgc(N,NM,FA,LAM,k)
-% Calculate the s matrix
+function val=s2invgc(N,NM,FA,LAM,k)
+% Evaluate structure factor of random copolymer melt, at
+% zero Flory-Huggins parameter. Chains are modeled as Gaussian chains.
+% Usage :: val=s2invgc(N,NM,FA,LAM,k)
+% Output :: val = inverse of structure factor
+% Inputs ::
+%   N = number of monomers
+%   NM = number of Kuhn steps per monomer
+%   FA = fraction of A monomers
+%   LAM = degree of chemical correlation
+%   k = wavevector, Fourier variable
+% Andrew Spakowitz (4/14/15)
+% Shifan Mao (1/6/16)
 
 [GAMQ]=gammaq2(N,NM,LAM,k);
 

@@ -1,17 +1,17 @@
-function [val]=s2invrr(N,NM,FA,LAM,k)
-
-% % Calculate the Fourier transform of the Green function
-% % for the wormlike chain in d-dimensions
-% %
-% % Andrew Spakowitz (4/14/15)
-% 
-% % Calculate the s matrix
-% 
-% [SAA,SAB,SBA,SBB]=s2rr(N,NM,FA,LAM,k);
-% 
-% DET=SAA.*SBB-SAB.*SBA;
-% 
-% val=real(N*NM*(SAA+SBB+2*SAB)./DET);
+function val=s2invrr(N,NM,FA,LAM,k)
+% Evaluate structure factor of random copolymer melt, at
+% zero Flory-Huggins parameter. Chains are modeled as perfectly rigidi
+% rods.
+% Usage :: val=s2invrr(N,NM,FA,LAM,k)
+% Output :: val = inverse of structure factor
+% Inputs ::
+%   N = number of monomers
+%   NM = number of Kuhn steps per monomer
+%   FA = fraction of A monomers
+%   LAM = degree of chemical correlation
+%   k = wavevector, Fourier variable
+% Andrew Spakowitz (4/14/15)
+% Shifan Mao (1/6/16)
 
 [GAMQ]=gammaq2(N,NM,LAM,k);
 
@@ -28,7 +28,7 @@ end
 val=zeros(length(k),length(N));
 
 for j=1:length(k)
-    if k(j)*sqrt(NM)<1e-2
+    if k(j)*NM<1e-2
         % zero wavemode limit
         GAMQ0=2*power(1+2/(N*(1-1/LAM))*((LAM-LAM^N)/(1-LAM)-N+1),-1);
         val(j,:)=1/GAMQ0*NM^2;

@@ -1,22 +1,21 @@
 function [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM,d,ORDmax,ORD,ResLayer)
-% Find the critical wavemode of instability of random copolymer melt
+% Evaluate structure factor of random copolymer melt near peak, at
+% zero Flory-Huggins parameter. Chains are modeled as wormlike chains.
 % Usage :: [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM,d,ORDmax,ORD,ResLayer)
 % Outputs ::
 %   kval = critical wavemode of instability
-%   sval = structure part of free energy quadratic coefficient (s2invwlc)
-%          evaluated at kval
-%   d2gam2 = second derivative of sval around kval
+%   sval = inverse of structure factor (s2invwlc) at kval
+%   d2gam2 = second derivative of sval at kval
 % Inputs ::
 %   N = number of monomers
 %   NM = number of Kuhn steps per monomer
 %   FA = fraction of A monomers
 %   LAM = degree of chemical correlation
-%   k = Fourier variable
 %   d = number of dimensions, default 3
 %   ORDmax = maximum number of eigenvalues, default 20
 %   ORD = number of eigenvalues, default 20
 %   ResLayer = number of residual layers, default 500
-% Shifan Mao (1/6/15)
+% Shifan Mao (1/6/16)
 
 % Fill in unset optional values
 

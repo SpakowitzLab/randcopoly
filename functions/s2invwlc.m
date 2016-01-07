@@ -1,19 +1,20 @@
-function [val]=s2invwlc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer)
-% Calculate the Fourier transform of quadratic-order free energy
-% expansion of random copolymer melt made of wormlike chains in d-dimensions
-% Usage ::
-%   [val]=s2invwlc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer)
+function val=s2invwlc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer)
+% Evaluate structure factor of random copolymer melt, at
+% zero Flory-Huggins parameter. Chains are modeled as wormlike chains.
+% Usage :: val=s2invwlc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer)
+% Output :: val = inverse of structure factor
 % Inputs ::
 %   N = number of monomers
 %   NM = number of Kuhn steps per monomer
 %   FA = fraction of A monomers
 %   LAM = degree of chemical correlation
-%   k = Fourier variable
+%   k = wavevector, Fourier variable
 %   d = number of dimensions, default 3
 %   ORDmax = maximum number of eigenvalues, default 20
 %   ORD = number of eigenvalues, default 20
 %   ResLayer = number of residual layers, default 500
 % Andrew Spakowitz (4/14/15)
+% Shifan Mao (1/6/16)
 
 % Fill in unset optional values
 
@@ -39,8 +40,6 @@ end
 if d==2
     d=2+1e-10;
 end
-
-% Calculate the s matrix
 
 [GAMQ]=gammaq2(N,NM,LAM,k,d,ORDmax,ORD,ResLayer);
 
