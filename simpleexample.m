@@ -9,7 +9,7 @@ addpath('functions')
 close all
 clear
 
-% Simple example: find spinodal
+% Simple example: wormlike chain code
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
 FA=0.5; % equal chemical composition
@@ -18,6 +18,6 @@ LAM=0;  % ideal random copolymer
 [KS,sval,D2GAM2]=kmaxwlc(N,NM,FA,LAM);
 CHIS=0.5*sval;  % spinodal
 
-sprintf('Spinodal chi vN_M= %.2f',CHIS*NM)
+sprintf('Spinodal chivN_M= %.2f',CHIS*NM)
 sprintf('Critical wavemode q* = %.2f',KS)
 sprintf('Second der. of structure factor at q* = %.2f',D2GAM2)
