@@ -13,6 +13,12 @@ function val=s2invrr(N,NM,FA,LAM,k)
 % Andrew Spakowitz (4/14/15)
 % Shifan Mao (1/6/16)
 
+% Check conditions on chemical composition and correlation
+if ~( FA>=0 && 1-FA>=0 && LAM>=-1 && 1-LAM>=0 && ...
+     FA*(1-LAM)+LAM>=0 && FA*(LAM-1)+1>=0 )
+ error('chemical composition and correlation constraints not satisfied')
+end
+
 [GAMQ]=gammaq2(N,NM,LAM,k);
 
 val=real(GAMQ/(2*FA*(1-FA)*NM));

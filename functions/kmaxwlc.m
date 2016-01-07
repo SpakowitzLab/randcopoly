@@ -17,6 +17,12 @@ function [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM,d,ORDmax,ORD,ResLayer)
 %   ResLayer = number of residual layers, default 500
 % Shifan Mao (1/6/16)
 
+% Check conditions on chemical composition and correlation
+if ~( FA>=0 && 1-FA>=0 && LAM>=-1 && 1-LAM>=0 && ...
+     FA*(1-LAM)+LAM>=0 && FA*(LAM-1)+1>=0 )
+ error('chemical composition and correlation constraints not satisfied')
+end
+
 % Fill in unset optional values
 
 switch nargin
@@ -28,10 +34,10 @@ switch nargin
     case 5
         ORDmax=20;
         ORD=20;
-        ResLayer=500;        
+        ResLayer=500;
     case 6
         ORD=20;
-        ResLayer=500;        
+        ResLayer=500;
     case 7
         ResLayer=500;        
 end

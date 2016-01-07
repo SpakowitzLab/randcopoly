@@ -16,6 +16,12 @@ function val=s2invwlc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer)
 % Andrew Spakowitz (4/14/15)
 % Shifan Mao (1/6/16)
 
+% Check conditions on chemical composition and correlation
+if ~( FA>=0 && 1-FA>=0 && LAM>=-1 && 1-LAM>=0 && ...
+     FA*(1-LAM)+LAM>=0 && FA*(LAM-1)+1>=0 )
+ error('chemical composition and correlation constraints not satisfied')
+end
+
 % Fill in unset optional values
 
 switch nargin
