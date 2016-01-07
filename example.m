@@ -31,7 +31,7 @@ axis([K0 KF 1e-2 1e1])
 % Example 2: find spinodal
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
-LAM=0; % anti-correlated random copolymer
+LAM=0; % ideal random copolymer
 
 FAV = linspace(0.1,0.9,38);
 CHIS = zeros(length(FAV),1);
