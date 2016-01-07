@@ -9,10 +9,10 @@ The polymers are modeled as wormlike chains, Gaussian chains, and perfectly rigi
 Phase transition spinodal and critical wavemode of phase segregation can be found at different
 chemical correlation and monomer rigidities.
 
-simpleexample.m provides a simple example that
-- finds spinodal
-- finds critical wavemode of instability
-- calculates peak sharpness
+simpleexample.m provides a simple example of
+- find spinodal
+- find critical wavemode of instability
+- calculate peak sharpness
 
 example.m provides a number of examples including
 - Example 1: plot density-density correlations
@@ -25,7 +25,7 @@ by evaluating density-density correlations. It requires external folder ../resul
 containing simulation results
 
 folder functions/
-consists of functions used in simpleexample.m, example.m, and scripts in mkfigures
+consists of functions used in example.m
 
-folder mkfigures/
+folder mkdifugre/
 consists of scripts for generating figures in manuscript
