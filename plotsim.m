@@ -1,4 +1,4 @@
-function [chis,ks,ksim,sinv_theory,sinv_sim]=plotsim(EPS,LAM,PLOTON)
+function [chis,ks,chiv,ksim,sinv_theory,sinv_sim]=plotsim(EPS,LAM,PLOTON)
 %% Plots density-density correlation of sim. and theory
 % INPUTS::
 %   EPS = number of Kuhn steps per monomer
@@ -6,6 +6,7 @@ function [chis,ks,ksim,sinv_theory,sinv_sim]=plotsim(EPS,LAM,PLOTON)
 
 % simulation folder
 folder = '../results/scalcbatch-12-15-15';
+addpath('functions/')
 
 % simulation constants
 FA=0.5;  % fraction of A blocks
@@ -26,8 +27,8 @@ chemparam=load([folder,'/chemind']);
 SIMNUM = ind;
 CHEMNUM=chemparam(chemparam(:,1)==ind,2);
 % Flory-Huggins parameter
-CHIV = load(sprintf([folder,'/sdata-%d-%d/Sdata/chilist'],SIMNUM,CHEMNUM));
-CHIV = CHIV/G;
+chiv = load(sprintf([folder,'/sdata-%d-%d/Sdata/chilist'],SIMNUM,CHEMNUM));
+chiv = chiv/G;
 
 % Find spinodal CHI and critical k
 [ks,sval]=kmaxwlc(M,NM,FA,LAM);
@@ -42,7 +43,7 @@ if PLOTON==1
     set(f1,'position',[0,0,800,600])
     cnt=find(chiind==plotind(1));
     for ii = plotind
-        CHI = CHIV(ii);
+        CHI = chiv(ii);
         col = cnt/length(chiind);
 
         if CHI<chis*EPS*0.85
@@ -72,12 +73,12 @@ if PLOTON==1
 end
 
 % Find peak of structure factors
-ksim = zeros(length(CHIV),1);
-sinv_theory = zeros(length(CHIV),1);
-sinv_sim = zeros(length(CHIV),1);
+ksim = zeros(length(chiv),1);
+sinv_theory = zeros(length(chiv),1);
+sinv_sim = zeros(length(chiv),1);
 
-for ii = 1:length(CHIV)
-    CHI = CHIV(ii);
+for ii = 1:length(chiv)
+    CHI = chiv(ii);
     
     val = s2invwlc(M,NM,FA,LAM,ks);
     sinv_theory(ii)=-2*CHI+EPS*val;

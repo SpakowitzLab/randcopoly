@@ -9,26 +9,35 @@ addpath('functions')
 close all
 clear
 
-% Example 1: plot density-density correlations
+% Example 1: plot density-density correlations vs wavevector at different CHI
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
 LAM=-0.75; % anti-correlated random copolymer
 FA=0.5;    % equal chemical composition
-CHI=0.1/NM;  % Flory-Huggins parameter
+
+% find spinodal CHIS
+[kval,sval]=kmaxwlc(N,NM,FA,LAM);
+CHIS=0.5*sval;
+CHI=CHIS*[0 0.2 0.4 0.6 0.8];
 
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
-K0=1e-5;  % minimum wavevector
+K0=1e-2;  % minimum wavevector
 KF=1e2;   % maximum wavevector
 NK=201;  % number of wavevectors
 K=transpose(logspace(log10(K0),log10(KF),NK))/RM;
 
 % evaluate s2inv
-S2INV=s2invwlc(N,NM,FA,LAM,K);
-figure;loglog(RM*K,1./(-2*CHI+S2INV));
+[SINV]=s2invwlc(N,NM,FA,LAM,K);
+figure;hold
+for I=1:length(CHI)
+    COL=(I-1)/(length(CHI)-1);
+    loglog(RM*K,1./(-2*CHI(I)+SINV),'-','LineWidth',2,'Color',[COL 0 1-COL])
+end
 xlabel('R_Mq');ylabel('S(q)')
-axis([K0 KF 1e-2 1e1])
+set(gca,'xscale','log');set(gca,'yscale','log');
+axis([K0 KF 1e-1 1e2])
 
-% Example 2: find spinodal
+% Example 2: find spinodal vs. chemical correlation
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
 LAM=0; % ideal random copolymer
@@ -43,7 +52,7 @@ end
 figure;plot(FAV,CHIS*NM)
 xlabel('f_A');ylabel('\chi_S v N_M')
 
-% Example 3: find critical wavemode
+% Example 3: find critical wavemode vs. chemical correlation
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
@@ -59,7 +68,7 @@ end
 figure;plot(LAMV,RM*KS)
 xlabel('f_A');ylabel('R_Mq^*')
 
-% Example 4: find peak sharpness
+% Example 4: find peak sharpness vs. chemical correlation
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
