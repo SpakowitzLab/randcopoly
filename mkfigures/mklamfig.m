@@ -218,19 +218,51 @@ ylabel('R_{m}q^{*}','FontSize',18)
 
 IND=63;
 NFA=1000;
-FA=transpose(linspace(0,1,NFA));
+% limits on FA at LAM=-3/4
+FA=transpose(linspace(3/7,4/7,NFA));
 
 figure(6)
 for INM=1:SKIP:NNM
     COL=(INM-1)/(NNM-1);
     plot(FA,NM(INM)*CHIS(INM,IND)./(FA.*(1-FA)*4),'-','LineWidth',2,'Color',[COL 0 1-COL])
+    plot(FA([1,end]),NM(INM)*CHIS(INM,IND)./(FA([1,end]).*(1-FA([1,end]))*4),...
+        'o','LineWidth',2,'MarkerSize',4,'MarkerEdgeColor',[COL 0 1-COL],'MarkerFaceColor',[COL 0 1-COL])
     hold on
 end
 plot(FA,NMRR*CHISRR(IND)./(FA.*(1-FA)*4),'k--','LineWidth',2)
 plot(FA,NMGC*CHISGC(IND)./(FA.*(1-FA)*4),'k-','LineWidth',2)
+plot(FA([1,end]),NMRR*CHISRR(IND)./(FA([1,end]).*(1-FA([1,end]))*4),...
+    'o','LineWidth',2,'MarkerSize',4,'MarkerEdgeColor','k','MarkerFaceColor','k')
+plot(FA([1,end]),NMGC*CHISGC(IND)./(FA([1,end]).*(1-FA([1,end]))*4),...
+    'o','LineWidth',2,'MarkerSize',4,'MarkerEdgeColor','k','MarkerFaceColor','k')
 
+axis([0.4 0.6 0 8])
+set(gca,'FontSize',14)
+xlabel('f_{A}','FontSize',18)
+ylabel('v \chi_{S} N_{M}','FontSize',18)
 
-axis([0 1 0 15])
+IND=126;
+NFA=1000;
+% limits on FA at LAM=-1/2
+FA=transpose(linspace(1/3,2/3,NFA));
+
+figure(7)
+for INM=1:SKIP:NNM
+    COL=(INM-1)/(NNM-1);
+    plot(FA,NM(INM)*CHIS(INM,IND)./(FA.*(1-FA)*4),'-','LineWidth',2,'Color',[COL 0 1-COL])
+    plot(FA([1,end]),NM(INM)*CHIS(INM,IND)./(FA([1,end]).*(1-FA([1,end]))*4),...
+        'o','LineWidth',2,'MarkerSize',4,'MarkerEdgeColor',[COL 0 1-COL],'MarkerFaceColor',[COL 0 1-COL])
+    hold on
+end
+plot(FA,NMRR*CHISRR(IND)./(FA.*(1-FA)*4),'k--','LineWidth',2)
+plot(FA,NMGC*CHISGC(IND)./(FA.*(1-FA)*4),'k-','LineWidth',2)
+plot(FA([1,end]),NMRR*CHISRR(IND)./(FA([1,end]).*(1-FA([1,end]))*4),...
+    'o','LineWidth',2,'MarkerSize',4,'MarkerEdgeColor','k','MarkerFaceColor','k')
+plot(FA([1,end]),NMGC*CHISGC(IND)./(FA([1,end]).*(1-FA([1,end]))*4),...
+    'o','LineWidth',2,'MarkerSize',4,'MarkerEdgeColor','k','MarkerFaceColor','k')
+
+axis([0.3 0.7 0 8])
+set(gca,'Xtick',[0.3:0.1:0.7])
 set(gca,'FontSize',14)
 xlabel('f_{A}','FontSize',18)
 ylabel('v \chi_{S} N_{M}','FontSize',18)
@@ -239,7 +271,7 @@ IND=251;
 NFA=1000;
 FA=transpose(linspace(0,1,NFA));
 
-figure(7)
+figure(8)
 %for INM=1:SKIP:NNM
 %    COL=(INM-1)/(NNM-1);
 %    plot(FA,NM(INM)*CHIS(INM,IND)./(FA.*(1-FA)*4),'-','LineWidth',2,'Color',[COL 0 1-COL])
@@ -248,11 +280,10 @@ figure(7)
 %plot(FA,NMRR*CHISRR(IND)./(FA.*(1-FA)*4),'k--','LineWidth',2)
 plot(FA,NMGC*CHISGC(IND)./(FA.*(1-FA)*4),'k-','LineWidth',2)
 
-axis([0 1 0 15])
+axis([0 1 0 8])
 set(gca,'FontSize',14)
 xlabel('f_{A}','FontSize',18)
 ylabel('v \chi_{S} N_{M}','FontSize',18)
-
 
 if SAVEON==1
     figure(1)
@@ -272,7 +303,10 @@ if SAVEON==1
 
     figure(6)
     saveas(gcf,'phase75fig.eps','epsc')
-
+    
     figure(7)
+    saveas(gcf,'phase50fig.eps','epsc')
+
+    figure(8)
     saveas(gcf,'phase0fig.eps','epsc') 
 end

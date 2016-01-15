@@ -6,7 +6,7 @@
 %      (expect rigid rod functions to be relatively slow with
 %       large number of monomers)
 addpath('functions')
-close all
+%close all
 clear
 
 % Example 1: plot density-density correlations vs wavevector at different CHI
@@ -37,7 +37,7 @@ xlabel('R_Mq');ylabel('S(q)')
 set(gca,'xscale','log');set(gca,'yscale','log');
 axis([K0 KF 1e-1 1e2])
 
-% Example 2: find spinodal vs. chemical correlation
+% Example 2: find spinodal vs. fraction of A monomers
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
 LAM=0; % ideal random copolymer
@@ -52,25 +52,30 @@ end
 figure;plot(FAV,CHIS*NM)
 xlabel('f_A');ylabel('\chi_S v N_M')
 
-% Example 3: find critical wavemode vs. chemical correlation
+% Example 3: find critical wavemode and spinodal vs. chemical correlation
 N=100;  % total of 100 monomers
-NM=100; % each monomer has 100 Kuhn steps
+NM=1; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 
 LAMV = linspace(-1,.99,84);
 KS = zeros(length(LAMV),1);
+CHIS = zeros(length(LAMV),1);
 for ii = 1:length(LAMV)
     LAM = LAMV(ii);
     [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM);
     KS(ii)=kval;
+    CHIS(ii)=0.5*sval;  % spinodal
 end
 figure;plot(LAMV,RM*KS)
 xlabel('f_A');ylabel('R_Mq^*')
 
+figure;plot(LAMV,CHIS*NM)
+xlabel('f_A');ylabel('\chi_Sv')
+
 % Example 4: find peak sharpness vs. chemical correlation
 N=100;  % total of 100 monomers
-NM=100; % each monomer has 100 Kuhn steps
+NM=1; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
 CHI=0.1/NM;  % Flory-Huggins parameter
 
