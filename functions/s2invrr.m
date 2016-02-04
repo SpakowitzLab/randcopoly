@@ -1,6 +1,6 @@
 function val=s2invrr(N,NM,FA,LAM,k)
 % Evaluate structure factor of random copolymer melt, at
-% zero Flory-Huggins parameter. Chains are modeled as perfectly rigidi
+% zero Flory-Huggins parameter. Chains are modeled as perfectly rigid
 % rods.
 % Usage :: val=s2invrr(N,NM,FA,LAM,k)
 % Output :: val = inverse of structure factor
