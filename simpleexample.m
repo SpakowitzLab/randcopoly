@@ -23,7 +23,7 @@ fprintf('Critical wavemode q* = %.2f\n',KS)
 fprintf('Second der. of structure factor at q* = %.2f\n',D2GAM2)
 
 % Simple Example 2: plot density-density correlations
-CHI=0.1/NM;  % Flory-Huggins parameter
+CHI=0.5*CHIS;  % Flory-Huggins parameter
 
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 K0=1e-2;  % minimum wavevector
