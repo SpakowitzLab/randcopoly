@@ -5,7 +5,7 @@ function [chis,ks,chiv,ksim,sinv_theory,sinv_sim]=plotsim(EPS,LAM,PLOTON)
 %   LAM = degree of chemical correlation
 
 % simulation folder
-folder = '../results/scalcbatch-12-15-15';
+folder = '../results/randcopoly-results/scalcbatch-12-15-15';
 addpath('functions/')
 
 % simulation constants

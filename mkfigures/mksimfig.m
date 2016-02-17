@@ -2,7 +2,7 @@ clear;close all
 cd ../
 
 % start code
-LAMV = 0.5;
+LAMV = -0.75;
 EPSV = [0.01,0.10,1.00];
 PLOTON = 0;
 
@@ -39,7 +39,7 @@ end
 
 figure(1);
 xlabel('\chivG');ylabel('S^{-1}(q^*)')
-% legend(p1,'N_M=0.05','N_M=0.50','N_M=5.00');box on
+legend(p1,'N_M=0.05','N_M=0.50','N_M=5.00');box on
 % if LAM==0
 %     ylim([0,1]);xlim([0,8]);
 %     set(gca,'Ytick',0:0.2:1.0)
@@ -72,11 +72,11 @@ legend(p2,'N_M=0.05','N_M=0.50','N_M=5.00');box on
 % end
 
 figure(1)
-savename = sprintf('../results/random-simulation/ssim-lam%.2f.eps',LAM);
+savename = sprintf('../results/randcopoly-results/random-simulation/ssim-lam%.2f.eps',LAM);
 saveas(gcf,savename,'epsc')
 
 figure(2)
-savename = sprintf('../results/random-simulation/qsim-lam%.2f.eps',LAM);
+savename = sprintf('../results/randcopoly-results/random-simulation/qsim-lam%.2f.eps',LAM);
 saveas(gcf,savename,'epsc')
 
 % end code
