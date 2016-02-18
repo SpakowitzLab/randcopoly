@@ -1,4 +1,4 @@
-function [chis,ks,chiv,ksim,sinv_theory,sinv_sim]=plotsim(EPS,LAM,PLOTON)
+function [chis,ks,chiv,ksim,SINV_MF,SINV_SIM,D2S_MF,D2S_SIM]=plotsim(EPS,LAM,PLOTON)
 %% Plots density-density correlation of sim. and theory
 % INPUTS::
 %   EPS = number of Kuhn steps per monomer
@@ -31,7 +31,7 @@ chiv = load(sprintf([folder,'/sdata-%d-%d/Sdata/chilist'],SIMNUM,CHEMNUM));
 chiv = chiv/G;
 
 % Find spinodal CHI and critical k
-[ks,sval]=kmaxwlc(M,NM,FA,LAM);
+[ks,sval,d2gam2]=kmaxwlc(M,NM,FA,LAM);
 chis=0.5*sval;
 
 R2=-0.5+0.5*exp(-2*NM)+NM;
@@ -68,28 +68,42 @@ if PLOTON==1
     set(gca,'xscale','log');set(gca,'yscale','log')
     box on
     
-    savename = sprintf('../results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
+    savename = sprintf('../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
     saveas(gcf,savename,'epsc')
 end
 
 % Find peak of structure factors
 ksim = zeros(length(chiv),1);
-sinv_theory = zeros(length(chiv),1);
-sinv_sim = zeros(length(chiv),1);
+SINV_MF = zeros(length(chiv),1);
+SINV_SIM = zeros(length(chiv),1);
+D2S_SIM = zeros(length(chiv),1);
+D2S_MF = zeros(length(chiv),1);
 
 for ii = 1:length(chiv)
     CHI = chiv(ii);
     
-    val = s2invwlc(M,NM,FA,LAM,ks);
-    sinv_theory(ii)=-2*CHI+EPS*val;
+    % Find peak position
+    SINV_MF(ii)=-2*CHI+EPS*sval;
 
     % Plot simulation results
     filename = sprintf([folder,'/sdata-%d-%d/Sdata/SMC_SIM%dCHEM%dCHI%.8f'],...
         SIMNUM,CHEMNUM,SIMNUM,CHEMNUM,CHI*G);
     S = load(filename);
     
-    % Find peak position
-    ind = find(S(:,2)==max(S(:,2)));
-    ksim(ii) = S(ind(1),1);
-    sinv_sim(ii) = 1./S(ind(1),2);
+    ind = find(S(:,2)==max(S(:,2)));IND = ind(1);
+    ksim(ii) = S(IND,1);
+    SINV_SIM(ii) = 1./S(IND,2);
+    
+    if IND>1  % central differences
+        DK1 = S(IND,1)-S(IND-1,1);
+        DK2 = S(IND+1,1)-S(IND,1);
+        SP1 = S(IND-1,2);
+        SP2 = S(IND,2);
+        SP3 = S(IND+1,2);
+        D2S_SIM(ii) = (2/(DK1+DK2)/DK2^2)*(DK1*SP3-(DK1+DK2)*SP2+DK2*SP1);
+    else  % forward differences
+        D2S_SIM(ii) = 0;
+    end
+    
+    D2S_MF(ii) = -1/(sval^2*R2*EPS)*d2gam2;
 end

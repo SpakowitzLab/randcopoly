@@ -76,6 +76,7 @@ end
 % find peak sharpness
 ks = kval;
 dks = 1/sqrt(R2)*5e-2;
+% dks = DK;
 G = @(k) s2invwlc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer);
 
 if ks>1e-1  % central differences
@@ -83,5 +84,5 @@ if ks>1e-1  % central differences
 else  % forward differences
     d2gam2 = (G(ks+2*dks)-2*G(ks+dks)+G(ks))/(dks^2);
 end
-d2gam2 = -1/(NM*R2)*d2gam2./power(G(ks),2);
+% d2gam2 = -1/(NM*R2)*d2gam2./power(G(ks),2);
 end
