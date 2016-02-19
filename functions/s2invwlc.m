@@ -95,7 +95,7 @@ val=zeros(length(k),length(N));
 % k is a vector of all frequencies, for each k, get the roots
 
 for j=1:length(k)
-    if k(j)*sqrt(r2wlc(NM))<1e-2
+    if k(j)*sqrt(r2wlc(NM))<=1e-2
         % zero wavemode limit
         GAMQ0=2*power(1+2/(N*(1-1/LAM))*((LAM-LAM^N)/(1-LAM)-N+1),-1);
         val(j,:)=1/GAMQ0*NM^2;

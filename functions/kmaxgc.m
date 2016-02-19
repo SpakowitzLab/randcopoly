@@ -32,7 +32,6 @@ if IND ==1
     sval=s2invgc(N,NM,FA,LAM,kval);
     kval=0;
 else
-
     KV2=transpose(linspace(KV(IND-1),KV(IND+1),NK));
     DK=KV2(2)-KV2(1);
     S=s2invgc(N,NM,FA,LAM,KV2);
@@ -46,18 +45,18 @@ else
     kval=(A-C)/(2*KAP*DK)+K;
 
     sval=s2invgc(N,NM,FA,LAM,kval);
-
 end
 
 % find peak sharpness
-ks = kval;
-dks = 1/sqrt(R2)*5e-2;
-G = @(k) s2invgc(N,NM,FA,LAM,k,d,ORDmax,ORD,ResLayer);
+G = @(k) s2invgc(N,NM,FA,LAM,k);
 
-if ks>1e-1  % central differences
-    d2gam2 = (G(ks+dks)-2*G(ks)+G(ks-dks))/(dks^2);
-else  % forward differences
+if (IND==1 || kval*sqrt(R2)<=1e-1)  % forward differences
+    ks = 1/sqrt(R2)*5e-2;
+    dks = 1/sqrt(R2)*5e-2;
     d2gam2 = (G(ks+2*dks)-2*G(ks+dks)+G(ks))/(dks^2);
+else  % central differences
+    ks = kval;
+    dks = 1/sqrt(R2)*5e-2;
+    d2gam2 = (G(ks+dks)-2*G(ks)+G(ks-dks))/(dks^2);
 end
-d2gam2 = -1/(NM*R2)*d2gam2./power(G(ks),2);
 end

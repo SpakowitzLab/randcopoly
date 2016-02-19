@@ -50,14 +50,15 @@ else
 end
 
 % find peak sharpness
-ks = kval;
-dks = 1/sqrt(R2)*5e-2;
 G = @(k) s2invrr(N,NM,FA,LAM,k);
 
-if ks>1e-1  % central differences
-    d2gam2 = (G(ks+dks)-2*G(ks)+G(ks-dks))/(dks^2);
-else  % forward differences
+if (IND==1 || kval*sqrt(R2)<=1e-1)  % forward differences
+    ks = 1/sqrt(R2)*5e-2;
+    dks = 1/sqrt(R2)*5e-2;
     d2gam2 = (G(ks+2*dks)-2*G(ks+dks)+G(ks))/(dks^2);
+else  % central differences
+    ks = kval;
+    dks = 1/sqrt(R2)*5e-2;
+    d2gam2 = (G(ks+dks)-2*G(ks)+G(ks-dks))/(dks^2);
 end
-d2gam2 = -1/(NM*R2)*d2gam2./power(G(ks),2);
 end

@@ -12,7 +12,7 @@ clear
 % Example 1: plot density-density correlations vs wavevector at different CHI
 N=100;  % total of 100 monomers
 NM=100; % each monomer has 100 Kuhn steps
-LAM=-0.75; % anti-correlated random copolymer
+LAM=0.99; % anti-correlated random copolymer
 FA=0.5;    % equal chemical composition
 
 % find spinodal CHIS
@@ -58,7 +58,7 @@ NM=100; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 
-LAMV = linspace(-1,.99,54);
+LAMV = linspace(-1,.99,501);
 KS = zeros(length(LAMV),1);
 CHIS = zeros(length(LAMV),1);
 D2S = zeros(length(LAMV),1);
