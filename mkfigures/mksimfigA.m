@@ -14,16 +14,18 @@ Lbox=20;
 Lbin=1;
 
 % plot range
-ind = 1:2:41;
+ind = 1:3:41;
 
 figure(1);hold;set(gca,'fontsize',20)
 figure(2);hold;set(gca,'fontsize',30)
-color = ['r','b','k'];
 
-cnt=1;p1=[];p2=[];
+% plot mean-field theory results
 for LAM = LAMV
+    ieps = 1;
     for EPS = EPSV
-        [chis,ks,chiv,ksim,SINV_MF,SINV_SIM]=plotsim(EPS,LAM,PLOTON);
+        col = (ieps-1)/(length(EPSV)-1);
+        
+        [chis,chiv,ks,ksim,SINV_MF,SINV_SIM]=plotsim(EPS,LAM,PLOTON);
         NM=EPS*G;
         R2=-0.5+0.5*exp(-2*NM)+NM;
         
@@ -31,27 +33,49 @@ for LAM = LAMV
         chiv = chiv(ind);
         SINV_SIM = SINV_SIM(ind);
         SINV_MF = SINV_MF(ind);
+
+        figure(1);
+        plot(chiv*G,SINV_MF,'--','linewidth',3,'color',[col 0 1-col])
+
+        figure(2);
+        plot(chiv*G,ones(length(chiv),1)*ks*sqrt(R2),'--','color',[col 0 1-col],'linewidth',3)
+        ieps = ieps+1;
+    end
+end
+
+% plot simulation results
+cnt=1;p1=[];p2=[];
+for LAM = LAMV
+    ieps = 1;
+    for EPS = EPSV
+        col = (ieps-1)/(length(EPSV)-1);
+        
+        [chis,chiv,ks,ksim,SINV_MF,SINV_SIM]=plotsim(EPS,LAM,PLOTON);
+        NM=EPS*G;
+        R2=-0.5+0.5*exp(-2*NM)+NM;
+        
+        % plot range
+        chiv = chiv(ind);
+        SINV_SIM = SINV_SIM(ind);
         ksim = ksim(ind);
 
         figure(1);
-        p1(cnt)=plot(chiv*G,SINV_SIM,'.-','color',color(cnt),...
-            'linewidth',3,'markersize',20);
-        plot(chiv*G,SINV_MF,'--','linewidth',3,'color',color(cnt))
+        p1(cnt)=plot(chiv*G,SINV_SIM,'o',...
+            'MarkerFaceColor',[col 0 1-col],'MarkerEdgeColor',[col 0 1-col],...
+            'linewidth',3,'markersize',10);
 
         figure(2);
-        p2(cnt)=plot(chiv*G,ksim,'.-','color',color(cnt),...
+        p2(cnt)=plot(chiv*G,ksim,'.-','color',[col 0 1-col],...
             'linewidth',3,'markersize',20);
-        plot(chiv*G,ones(length(ksim),1)*ks*sqrt(R2),'--','color',color(cnt),'linewidth',3)
-    %     plot(chiv*G,ones(length(ksim),1)*2*pi/Lbox*RM,'k--')
-    %     plot(chiv*G,ones(length(ksim),1)*2*pi/Lbin*RM,'k--')
+        ieps = ieps+1;
         cnt = cnt+1;
     end
 end
 
 figure(1);
 xlabel('\chivG');ylabel('S^{-1}(q^*)');box on
-legend(p1,{'N_M=0.05','N_M=0.50','N_M=5.00'},...
-    'Position',[0.72,0.25,0.1,0.1])
+legend(p1,{'N_M=0.05','N_M=0.50','N_M=5.00'},'location','northeast')
+    %'Position',[0.72,0.25,0.1,0.1])
 if LAM==0
     ylim([0,1]);xlim([0,8]);
     set(gca,'Ytick',0:0.2:1.0)

@@ -1,8 +1,8 @@
-function [chis,ks,chiv,ksim,SINV_MF,SINV_SIM,D2S_MF,D2S_SIM]=plotsim(EPS,LAM,PLOTON)
+function [chis,chiv,KS_MF,KS_SIM,SINV_MF,SINV_SIM,D2S_MF,D2S_SIM]=plotsim(EPS,LAM,PLOTON)
 %% Plots density-density correlation of sim. and theory
 % INPUTS::
-%   EPS = number of Kuhn steps per monomer
-%   LAM = degree of chemical correlation
+%   EPS, number of Kuhn steps per monomer
+%   LAM, degree of chemical correlation
 
 % simulation folder
 folder = '../results/randcopoly-results/scalcbatch-12-15-15';
@@ -15,7 +15,7 @@ G=5;  % number of discrete monomers
 NM=G*EPS;  % number of Kuhn steps per monomer
 
 % range of chi params.
-chiind=fliplr([1:2:11,22,32,42]);
+chiind=fliplr([1:2:11,21,31,41]);
 plotind=chiind(1:end);
 
 % load simulation parameters
@@ -31,7 +31,7 @@ chiv = load(sprintf([folder,'/sdata-%d-%d/Sdata/chilist'],SIMNUM,CHEMNUM));
 chiv = chiv/G;
 
 % Find spinodal CHI and critical k
-[ks,sval,d2gam2]=kmaxwlc(M,NM,FA,LAM);
+[KS_MF,sval,d2gam2]=kmaxwlc(M,NM,FA,LAM);
 chis=0.5*sval;
 
 R2=-0.5+0.5*exp(-2*NM)+NM;
@@ -73,7 +73,7 @@ if PLOTON==1
 end
 
 % Find peak of structure factors
-ksim = zeros(length(chiv),1);
+KS_SIM = zeros(length(chiv),1);
 SINV_MF = zeros(length(chiv),1);
 SINV_SIM = zeros(length(chiv),1);
 D2S_SIM = zeros(length(chiv),1);
@@ -91,19 +91,26 @@ for ii = 1:length(chiv)
     S = load(filename);
     
     ind = find(S(:,2)==max(S(:,2)));IND = ind(1);
-    ksim(ii) = S(IND,1);
+    KS_SIM(ii) = S(IND,1);
     SINV_SIM(ii) = 1./S(IND,2);
     
-    if IND>1  % central differences
-        DK1 = S(IND,1)-S(IND-1,1);
-        DK2 = S(IND+1,1)-S(IND,1);
-        SP1 = S(IND-1,2);
-        SP2 = S(IND,2);
-        SP3 = S(IND+1,2);
-        D2S_SIM(ii) = (2/(DK1+DK2)/DK2^2)*(DK1*SP3-(DK1+DK2)*SP2+DK2*SP1);
+    if IND>2  % central differences
+%         DK1 = S(IND,1)-S(IND-1,1);
+%         DK2 = S(IND+1,1)-S(IND,1);
+%         SP1 = S(IND-1,2);
+%         SP2 = S(IND,2);
+%         SP3 = S(IND+1,2);
+%         D2S_SIM(ii) =
+%         (2/(DK1+DK2)/DK2^2)*(DK1*SP3-(DK1+DK2)*SP2+DK2*SP1);
+        Kfit = S(IND-2:IND+2,1);
+        Sfit = S(IND-2:IND+2,2);
     else  % forward differences
-        D2S_SIM(ii) = 0;
+        Kfit = S(IND+1:IND+3,1);
+        Sfit = S(IND+1:IND+3,2);
     end
-    
+    fit = polyfit(Kfit,Sfit,2);
+    SINV_SIM(ii) = 1./polyval(fit,-fit(2)/(2*fit(1)));
+    KS_SIM(ii) = -fit(2)/(2*fit(1));
+    D2S_SIM(ii) = 2*fit(1);
     D2S_MF(ii) = -1/(sval^2*R2*EPS)*d2gam2;
 end

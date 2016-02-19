@@ -54,24 +54,28 @@ xlabel('f_A');ylabel('\chi_S v N_M')
 
 % Example 3: find critical wavemode and spinodal vs. chemical correlation
 N=100;  % total of 100 monomers
-NM=1; % each monomer has 100 Kuhn steps
+NM=100; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 
-LAMV = linspace(-1,.99,84);
+LAMV = linspace(-1,.99,54);
 KS = zeros(length(LAMV),1);
 CHIS = zeros(length(LAMV),1);
+D2S = zeros(length(LAMV),1);
 for ii = 1:length(LAMV)
     LAM = LAMV(ii);
     [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM);
     KS(ii)=kval;
     CHIS(ii)=0.5*sval;  % spinodal
+    D2S(ii)=1/(sval^2*RM^2)*d2gam2;
 end
 figure;plot(LAMV,RM*KS)
 xlabel('f_A');ylabel('R_Mq^*')
 
 figure;plot(LAMV,CHIS*NM)
 xlabel('f_A');ylabel('\chi_Sv')
+
+figure;plot(LAMV,D2S/NM);
 
 % Example 4: find peak sharpness vs. chemical correlation
 N=100;  % total of 100 monomers
