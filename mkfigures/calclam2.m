@@ -26,7 +26,8 @@ dlmwrite(sprintf('data/GC'),data)
 NMV = logspace(-2,2,11);
 LAML_WLC = zeros(length(NMV),1);
 cnt = 1;
-for NM = NMV(9:end)
+NMV = [0.05,0.5,5];
+for NM = NMV
     col = (cnt-1)/(length(NMV)-1);
     NM
     RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
@@ -57,7 +58,7 @@ KS = zeros(length(LAMV),1);
 CHIS = zeros(length(LAMV),1);
 D2S = zeros(length(LAMV),1);
 for ii = 1:length(LAMV)
-    LAM = LAMV(ii)
+    LAM = LAMV(ii);
     [kval,sval,d2gam2]=kmaxrr(N,NM,FA,LAM);
     KS(ii)=kval;
     CHIS(ii)=0.5*sval;  % spinodal
