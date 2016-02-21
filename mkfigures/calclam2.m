@@ -50,15 +50,15 @@ for NM = NMV
 end
 
 % Rigid rod
-NM=1; % each monomer has 100 Kuhn steps
+NM=0.01; % each monomer has 100 Kuhn steps
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 
-LAMV = linspace(-.99,.99,501);
+LAMV = linspace(-.99,.99,51);
 KS = zeros(length(LAMV),1);
 CHIS = zeros(length(LAMV),1);
 D2S = zeros(length(LAMV),1);
 for ii = 1:length(LAMV)
-    LAM = LAMV(ii);
+    LAM = LAMV(ii)
     [kval,sval,d2gam2]=kmaxrr(N,NM,FA,LAM);
     KS(ii)=kval;
     CHIS(ii)=0.5*sval;  % spinodal

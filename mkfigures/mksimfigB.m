@@ -46,19 +46,39 @@ for EPS = EPSV
     if EPS ==1.00
         plotrange = 2;
         figure(1);plot(LAMV_SIM(1:2),KSV_SIM(1:2,plotrange),'o',...
-            'MarkerFaceColor',[1 1 1],'MarkerEdgeColor',[col 0 1-col],...
-            'markersize',15)
+            'MarkerEdgeColor',[col 0 1-col],...
+            'markersize',15,'linewidth',2)
         figure(2);plot(LAMV_SIM(1:2),-D2SV_SIM(1:2,plotrange)/G,'o',...
-            'MarkerFaceColor',[1 1 1],'MarkerEdgeColor',[col 0 1-col],...
-            'markersize',15)
+            'MarkerEdgeColor',[col 0 1-col],...
+            'markersize',15,'linewidth',2)
     else
         plotrange = 2;
         figure(1);plot(LAMV_SIM(1:3),KSV_SIM(1:3,plotrange),'o',...
-            'MarkerFaceColor',[1 1 1],'MarkerEdgeColor',[col 0 1-col],...
-            'markersize',15)
-        figure(2);plot(LAMV_SIM(1:3),-D2SV_SIM(1:3,plotrange)/G,'o',...
-            'MarkerFaceColor',[1 1 1],'MarkerEdgeColor',[col 0 1-col],...
-            'markersize',15)
+            'MarkerEdgeColor',[col 0 1-col],...
+            'markersize',15,'linewidth',2)
+        figure(2);plot(LAMV_SIM(1:3),-D2SV_SIM(1:3,plotrange)'/G,'o',...
+            'MarkerEdgeColor',[col 0 1-col],...
+            'markersize',15,'linewidth',2)
+    end
+    
+    ieps = ieps+1;
+end
+
+ieps = 1;
+for EPS = EPSV
+    col = (ieps-1)/(length(EPSV)-1);
+
+    % plot simulation results
+    KSV_SIM = zeros(length(LAMV_SIM),46);
+    D2SV_SIM = zeros(length(LAMV_SIM),46);
+    ilam=0;
+    for LAM = LAMV_SIM
+        ilam = ilam+1;
+        [~,~,~,KS_SIM,~,~,~,D2S_SIM]=plotsim(EPS,LAM,PLOTON);
+        NM=EPS*G;
+        R2=-0.5+0.5*exp(-2*NM)+NM;
+        KSV_SIM(ilam,:) = KS_SIM;
+        D2SV_SIM(ilam,:) = D2S_SIM;
     end
     
     plotrange = 41;
@@ -72,13 +92,16 @@ for EPS = EPSV
     ieps = ieps+1;
 end
 
+
 figure(1);
 xlim([-1,.5])
 xlabel('\lambda');ylabel('R_Mq^*');box on
 
 figure(2);
-xlabel('\lambda');ylabel('\Delta_\psi');set(gca,'yscale','log');box on
-xlim([-1,.5]);ylim([1e-3,1e5])
+xlabel('\lambda');
+ylabel('Peak sharpness \Delta_\psi');
+set(gca,'yscale','log');box on
+xlim([-1,.5]);ylim([1e-3,1e4])
 
 % end code
 
