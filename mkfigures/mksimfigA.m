@@ -1,5 +1,4 @@
 clear;close all
-cd ../
 
 % start code
 LAMV = -0.75;
@@ -108,9 +107,6 @@ else
 end
 
 % end code
-
-cd mkfigures/
-
 
 figure(1)
 savename = sprintf('../../results/randcopoly-results/random-simulation/ssim-lam%.2f.eps',LAM);

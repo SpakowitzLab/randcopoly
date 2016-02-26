@@ -1,6 +1,5 @@
 close all
 clear;
-cd ../
 
 % start code
 LAMV_SIM = [-0.75:0.25:0.25];
@@ -22,7 +21,7 @@ for EPS = EPSV
 
     % plot mean-field theory results
     NM=G*EPS;  % number of Kuhn steps per monomer
-    data = load(sprintf('mkfigures/data/WLC_NM%.2f',NM));
+    data = load(sprintf('data/WLC_NM%.2f',NM));
     LAMV_MF = data(:,1);
     KS_MF = data(:,2);
     D2S_MF = data(:,4);
@@ -92,7 +91,6 @@ for EPS = EPSV
     ieps = ieps+1;
 end
 
-
 figure(1);
 xlim([-1,.5])
 xlabel('\lambda');ylabel('R_Mq^*');box on
@@ -104,8 +102,6 @@ set(gca,'yscale','log');box on
 xlim([-1,.5]);ylim([1e-3,1e4])
 
 % end code
-
-cd mkfigures/
 
 figure(1);
 savename = sprintf('../../results/randcopoly-results/random-simulation/qstar.eps');

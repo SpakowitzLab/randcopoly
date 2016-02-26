@@ -5,8 +5,8 @@ function [chis,chiv,KS_MF,KS_SIM,SINV_MF,SINV_SIM,D2S_MF,D2S_SIM]=plotsim(EPS,LA
 %   LAM, degree of chemical correlation
 
 % simulation folder
-folder = '../results/randcopoly-results/scalcbatch-12-15-15';
-addpath('functions/')
+folder = '../../results/randcopoly-results/scalcbatch-12-15-15';
+addpath('../functions/')
 
 % simulation constants
 FA=0.5;  % fraction of A blocks
