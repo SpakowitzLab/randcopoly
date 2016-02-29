@@ -1,7 +1,10 @@
 clear;close all
 
+% 1. sinv plot
+% 2. q^* plot
+
 % start code
-LAMV = -0.75;
+LAMV = 0.00;
 EPSV = [0.01,0.10,1.00];
 PLOTON = 0;
 

@@ -1,5 +1,5 @@
 function [chis,chiv,KS_MF,KS_SIM,SINV_MF,SINV_SIM,D2S_MF,D2S_SIM]=plotsim(EPS,LAM,PLOTON)
-%% Plots density-density correlation of sim. and theory
+% Plots density-density correlation of sim. and theory
 % INPUTS::
 %   EPS, number of Kuhn steps per monomer
 %   LAM, degree of chemical correlation
@@ -15,7 +15,7 @@ G=5;  % number of discrete monomers
 NM=G*EPS;  % number of Kuhn steps per monomer
 
 % range of chi params.
-chiind=fliplr([1:2:11,21,31,41]);
+chiind=fliplr([1:2:11,22,32,42]);
 plotind=chiind(1:end);
 
 % load simulation parameters
@@ -68,8 +68,8 @@ if PLOTON==1
     set(gca,'xscale','log');set(gca,'yscale','log')
     box on
     
-    savename = sprintf('../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
-    saveas(gcf,savename,'epsc')
+%     savename = sprintf('../../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
+%     saveas(gcf,savename,'epsc')
 end
 
 % Find peak of structure factors
@@ -80,37 +80,44 @@ D2S_SIM = zeros(length(chiv),1);
 D2S_MF = zeros(length(chiv),1);
 
 for ii = 1:length(chiv)
+% for ii = plotind
     CHI = chiv(ii);
     
     % Find peak position
     SINV_MF(ii)=-2*CHI+EPS*sval;
+    D2S_MF(ii) = -1/(sval^2*R2*EPS)*d2gam2;
 
     % Plot simulation results
     filename = sprintf([folder,'/sdata-%d-%d/Sdata/SMC_SIM%dCHEM%dCHI%.8f'],...
         SIMNUM,CHEMNUM,SIMNUM,CHEMNUM,CHI*G);
     S = load(filename);
     
-    ind = find(S(:,2)==max(S(:,2)));IND = ind(1);
+    IND = find(S(:,2)==max(S(:,2)));IND = IND(1);
     KS_SIM(ii) = S(IND,1);
     SINV_SIM(ii) = 1./S(IND,2);
     
-    if IND>2  % central differences
-%         DK1 = S(IND,1)-S(IND-1,1);
-%         DK2 = S(IND+1,1)-S(IND,1);
-%         SP1 = S(IND-1,2);
-%         SP2 = S(IND,2);
-%         SP3 = S(IND+1,2);
-%         D2S_SIM(ii) =
-%         (2/(DK1+DK2)/DK2^2)*(DK1*SP3-(DK1+DK2)*SP2+DK2*SP1);
+    if IND>3  % central differences
         Kfit = S(IND-2:IND+2,1);
         Sfit = S(IND-2:IND+2,2);
     else  % forward differences
-        Kfit = S(IND+1:IND+3,1);
-        Sfit = S(IND+1:IND+3,2);
+        Kfit = S(IND:IND+4,1);
+        Sfit = S(IND:IND+4,2);
     end
-    fit = polyfit(Kfit,Sfit,2);
-    SINV_SIM(ii) = 1./polyval(fit,-fit(2)/(2*fit(1)));
+    
+    % local fit to Lorentzian
+    fit = polyfit(Kfit,1./Sfit,2);
+    SINV_SIM(ii) = polyval(fit,-fit(2)/(2*fit(1)));
     KS_SIM(ii) = -fit(2)/(2*fit(1));
-    D2S_SIM(ii) = 2*fit(1);
-    D2S_MF(ii) = -1/(sval^2*R2*EPS)*d2gam2;
+    D2S_SIM(ii) = 2*G*fit(1);
+    
+%     % local fit to Lorentzian (fixed peak)
+%     D2S_SIM0 = 1;
+%     options = optimset('Display','off',...
+%         'TolX',1e-4,'TolFun',1e-4,'MaxFunEvals',1e5,'MaxIter',1e5);
+%     lb = 0; ub = 1e5;
+%     fun = @(d2s,Kfit) 1/S(IND,2) + (1/2)*d2s*(Kfit-KS_SIM(ii)).^2;
+%     D2S_SIM(ii) = G*lsqcurvefit(fun,D2S_SIM0,Kfit,1./Sfit,lb,ub,options);
+    
+%     funfit = @(k) S(IND,2) + (1/2)*D2S_SIM(ii)*(k-KS_SIM(ii)).^2;
+%     fplot(funfit,[Kfit(1),Kfit(end)],'k-')
 end

@@ -1,4 +1,3 @@
-
 figure(1);set(gca,'fontsize',20);hold
 figure(2);set(gca,'fontsize',20);hold
 figure(3);set(gca,'fontsize',20);hold
@@ -41,7 +40,7 @@ IND = find(KS<=1e-1);
 LAML_GC = LAMV(IND(1));
 figure(3);plot(LAML_GC-LAMV,D2S,'linewidth',3,'color',[0 0 0])
 
-% Gaussian chain
+% Rigid rod
 data = load(sprintf('data/RR'));
 LAMV = data(:,1);
 KS = data(:,2);
@@ -56,17 +55,8 @@ IND = find(KS<=1e-1);
 LAML_RR = -0.1;
 figure(3);plot(LAML_RR-LAMV,D2S,'--','linewidth',3,'color',[0 0 0])
 
-NM=0.01;
-data = load(sprintf('data/WLC_NM%.2f',NM));
-LAMV = data(:,1);
-KS = data(:,2);
-CHIS = data(:,3);
-D2S = data(:,4);
-ind = find(LAMV>=-0.1782);
-figure(3);plot(LAML_RR-LAMV(ind(1):end),D2S(ind(1):end),'--','linewidth',3,'color',[0 0 0])
-
 figure(1);xlabel('\lambda');ylabel('R_Mq^*');box on
 figure(2);xlabel('\lambda');ylabel('\chi_Sv');box on
 figure(3);set(gca,'yscale','log');box on
 xlabel('\lambda_L-\lambda');ylabel('Peak sharpness \Delta_\psi')
-ylim([1e-4,1e4])
+ylim([1e-2,1e3])

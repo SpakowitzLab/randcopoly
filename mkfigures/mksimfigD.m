@@ -8,9 +8,7 @@ folder2 = '../../results/randcopoly-results/rdata-12-15-15';
 EPSV = [0.01,0.10,1.00];
 LAM = -0.75;
 
-% col = ['r','b','k'];
 figure;hold;set(gca,'fontsize',20)
-
 for ii = 1:3
 EPS = EPSV(ii);
 col = (ii-1)/(length(EPSV)-1);
@@ -38,7 +36,9 @@ R = load([folder2,filename]);
 % CHIV = linspace(0,4.5,length(R));
 
 % Plot radius of gyration
-plot(R(:,1),R(:,2)/Rgid,'.-','linewidth',3,'color',[col 0 1-col],'markersize',20)
+plot(R(:,1),R(:,2)/Rgid,'o-','linewidth',3,'color',[col 0 1-col],...
+    'MarkerFaceColor',[col 0 1-col],'MarkerEdgeColor',[col 0 1-col],...
+    'markersize',10)
 
 % Plot monomer length
 % Lm = (G-1)*L0;  % Monomer contour length
@@ -49,4 +49,19 @@ plot(R(:,1),R(:,2)/Rgid,'.-','linewidth',3,'color',[col 0 1-col],'markersize',20
 end
 
 xlabel('\chivG');ylabel('R_g/R_{id}')
-axis([0 20 .98 1.15])
+if LAM==-0.75
+    axis([0 20 .96 1.15])
+    set(gca,'Ytick',0.96:0.04:1.14)
+    set(gca,'YtickLabel',{'0.96','1.00','1.04','1.08','1.12','1.14'})
+    savename = sprintf('../../results/randcopoly-results/random-simulation/Figure8A.eps');
+elseif LAM==0.00
+    axis([0 10 .96 1.15])
+    set(gca,'Ytick',0.96:0.04:1.14)
+    set(gca,'YtickLabel',{'0.96','1.00','1.04','1.08','1.12','1.14'})
+    savename = sprintf('../../results/randcopoly-results/random-simulation/Figure8B.eps');
+else
+    error('axis not defined')
+end
+legend('N_M=0.05','N_M=0.50','N_M=5.00','location','northwest')
+
+saveas(gcf,savename,'epsc')
