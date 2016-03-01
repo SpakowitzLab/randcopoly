@@ -76,8 +76,8 @@ SINV_SIM = zeros(length(chiv),1);
 D2S_SIM = zeros(length(chiv),1);
 D2S_MF = zeros(length(chiv),1);
 
-% for ii = 1:length(chiv)
-for ii = plotind
+for ii = 1:length(chiv)
+% for ii = plotind
     CHI = chiv(ii);
     
     % Find peak position
@@ -97,7 +97,7 @@ for ii = plotind
 %     SINV_SIM(ii) = 1/SMAX;
 %     KS_SIM(ii) = S(IND,1);
     
-    NUMFIT = 3;
+    NUMFIT = 4;
     if IND>NUMFIT  % central differences
         Kfit = S(IND-NUMFIT:IND+NUMFIT,1);
         Sfit = S(IND-NUMFIT:IND+NUMFIT,2);
@@ -127,11 +127,11 @@ for ii = plotind
     KS_SIM(ii) = x(2);
     SINV_SIM(ii) = x(3);
     
-    funfit = @(k) 1./(SINV_SIM(ii) + (1/2)*D2S_SIM(ii)/G*(k-KS_SIM(ii)).^2);
-    kplot = logspace(log10(Kfit(1)),log10(Kfit(end)),50);
-    plots = funfit(kplot);
-    plot(kplot,plots,'k-','linewidth',2);
-
-    savename = sprintf('../../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
-    saveas(gcf,savename,'epsc')
+%     funfit = @(k) 1./(SINV_SIM(ii) + (1/2)*D2S_SIM(ii)/G*(k-KS_SIM(ii)).^2);
+%     kplot = logspace(log10(Kfit(1)),log10(Kfit(end)),50);
+%     plots = funfit(kplot);
+%     plot(kplot,plots,'k-','linewidth',2);
+% 
+%     savename = sprintf('../../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
+%     saveas(gcf,savename,'epsc')
 end

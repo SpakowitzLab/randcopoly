@@ -36,7 +36,11 @@ for ii = plotind
     % Plot simulation results
     filename = sprintf([folder,'/PMC_SIM%dCHEM%dCHI%.8f'],SIMNUM,CHEMNUM,CHI*G);
     data = load(filename);
-    plot(data(:,1),data(:,2),'.','color',[1-col 0 col],'linewidth',3,'markersize',20)
+    X = data(:,1);
+    P = data(:,2);
+    plot(X,P,'o-','linewidth',2,'color',[1-col 0 col],...
+    'MarkerFaceColor',[1-col 0 col],'MarkerEdgeColor',[1-col 0 col],...
+    'markersize',5)
     cnt = cnt+1;
 end
 
@@ -50,15 +54,18 @@ FNUM=round(100*L/(2*LP));
 XG=transpose(linspace(0,1,5001));
 if FNUM<=2000
     G=load(['../../results/data//out',int2str(FNUM),'.txt']);
-    G=G.*power(XG,2)*(4*pi);
 else
     DXG=XG(2)-XG(1);
     G=exp(-1.5*N*XG.^2).*XG.*XG;
     G=G./(sum(G).*DXG);
+    G=G./(power(XG,2)*(4*pi));
 end
-plot(XG,G,'k-','LineWidth',2)
+plot(XG,G.*power(XG,2)*(4*pi),'k-','LineWidth',3)
 
 xlabel('R/L');
 ylabel('P(R/L)')
 axis([0,1,0,10])
 box on
+
+savename = sprintf('../../results/randcopoly-results/random-simulation/pdata-lam%.2f.eps',LAM);
+saveas(gcf,savename,'epsc')

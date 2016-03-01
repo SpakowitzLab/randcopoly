@@ -1,90 +1,85 @@
-clear;close all
-
-% Plot SINV
+close all
+clear;
 
 % start code
-LAMV = -0.75;
+LAMV_SIM = [-0.75:0.25:0.25];
 EPSV = [0.01,0.10,1.00];
 PLOTON = 0;
 
 % simulation parameters
 N=8;
 G=5;
-RM=2;
 Lbox=20;
 Lbin=1;
 
-% plot range
-ind = 1:2:41;
-
 figure(1);hold;set(gca,'fontsize',20)
+figure(2);hold;set(gca,'fontsize',20)
 
-% plot mean-field theory results
-for LAM = LAMV
-    ieps = 1;
-    for EPS = EPSV
-        col = (ieps-1)/(length(EPSV)-1);
-        
-        [chis,chiv,ks,ksim,SINV_MF,SINV_SIM]=plotsim(EPS,LAM,PLOTON);
-        NM=EPS*G;
-        R2=-0.5+0.5*exp(-2*NM)+NM;
-        
-        % plot range
-        chiv = chiv(ind);
-        SINV_SIM = SINV_SIM(ind);
-        SINV_MF = SINV_MF(ind);
+ieps = 1;
+for EPS = EPSV
+    col = (ieps-1)/(length(EPSV)-1);
 
-        figure(1);
-        plot(chiv*G,SINV_MF,'--','linewidth',3,'color',[col 0 1-col])
-        ieps = ieps+1;
-    end
+    % plot mean-field theory results
+    NM=G*EPS;  % number of Kuhn steps per monomer
+    data = load(sprintf('data/WLC_NM%.2f',NM));
+    LAMV_MF = data(:,1);
+    KS_MF = data(:,2);
+    D2S_MF = data(:,4);
+    
+    figure(1);plot(LAMV_MF,KS_MF,'--','linewidth',3,'color',[col 0 1-col])
+    figure(2);plot(LAMV_MF,D2S_MF,'--','linewidth',3,'color',[col 0 1-col])
+    ieps = ieps+1;
 end
 
-% plot simulation results
-cnt=1;p1=[];
-for LAM = LAMV
-    ieps = 1;
-    for EPS = EPSV
-        col = (ieps-1)/(length(EPSV)-1);
-        
-        [chis,chiv,ks,ksim,SINV_MF,SINV_SIM]=plotsim(EPS,LAM,PLOTON);
+
+ieps = 1;
+for EPS = EPSV
+    col = (ieps-1)/(length(EPSV)-1);
+    
+    % plot simulation results
+    KSV_SIM = zeros(length(LAMV_SIM),46);
+    D2SV_SIM = zeros(length(LAMV_SIM),46);
+    ilam=0;
+    for LAM = LAMV_SIM
+        ilam = ilam+1;
+        [~,~,~,KS_SIM,~,~,~,D2S_SIM]=plotsim(EPS,LAM,PLOTON);
         NM=EPS*G;
         R2=-0.5+0.5*exp(-2*NM)+NM;
-        
-        % plot range
-        chiv = chiv(ind);
-        SINV_SIM = SINV_SIM(ind);
-        ksim = ksim(ind);
-
-        figure(1);
-        p1(cnt)=plot(chiv*G,SINV_SIM,'o',...
-            'MarkerEdgeColor',[col 0 1-col],...
-            'linewidth',3,'markersize',10,'linewidth',2);
-        ieps = ieps+1;
-        cnt = cnt+1;
+        KSV_SIM(ilam,:) = KS_SIM;
+        D2SV_SIM(ilam,:) = D2S_SIM;
     end
+    
+    figure(1);plot(LAMV_SIM,KSV_SIM(:,42),'o',...
+        'MarkerEdgeColor',[col 0 1-col],'markersize',12,'linewidth',2)
+    figure(2);plot(LAMV_SIM,D2SV_SIM(:,42),'o',...
+        'MarkerEdgeColor',[col 0 1-col],'markersize',12,'linewidth',2)
+    ieps = ieps+1;
 end
 
 figure(1);
-xlabel('\chivG');ylabel('S^{-1}(q^*)');box on
-legend(p1,{'N_M=0.05','N_M=0.50','N_M=5.00'},'location','northeast')
-    %'Position',[0.72,0.25,0.1,0.1])
-if LAM==0
-    ylim([0,1.1]);xlim([0,8]);
-    set(gca,'Ytick',0:0.2:1.0)
-    set(gca,'YtickLabel',{'0.0','0.2','0.4','0.6','0.8','1.0'})
-elseif LAM==-0.75
-    ylim([0,2]);xlim([0,20]);
-    set(gca,'Ytick',0:0.4:2.0)
-    set(gca,'YtickLabel',{'0.0','0.4','0.8','1.2','1.6','2.0'})
-else
-    ylim([0,2]);xlim([0,20]);
-    set(gca,'Ytick',0:0.4:2.0)
-    set(gca,'YtickLabel',{'0.0','0.4','0.8','1.2','1.6','2.0'})
-end
+xlim([-1,.5]);ylim([0,5])
+xlabel('\lambda');ylabel('R_Mq^*');box on
+set(gca,'Xtick',-1:0.25:0.5)
+set(gca,'XtickLabel',{'-1','-0.75','-0.5','-0.25','0','0.25'})
+
+figure(2);
+xlabel('\lambda');
+ylabel('Peak sharpness \Delta_\psi');
+box on
+xlim([-1,.5]);
+ylim([0,10]);
+set(gca,'yscale','linear')
+% set(gca,'yscale','log');
+% ylim([1e-2,1e2])
+set(gca,'Xtick',-1:0.25:0.5)
+set(gca,'XtickLabel',{'-1','-0.75','-0.5','-0.25','0','0.25'})
 
 % end code
 
-figure(1)
-savename = sprintf('../../results/randcopoly-results/random-simulation/ssim-lam%.2f.eps',LAM);
+figure(1);
+savename = sprintf('../../results/randcopoly-results/random-simulation/qstar.eps');
+saveas(gcf,savename,'epsc')
+
+figure(2);
+savename = sprintf('../../results/randcopoly-results/random-simulation/d2s.eps');
 saveas(gcf,savename,'epsc')
