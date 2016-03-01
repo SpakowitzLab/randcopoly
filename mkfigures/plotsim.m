@@ -67,9 +67,6 @@ if PLOTON==1
     set(gca,'Xtick',[1,10])
     set(gca,'xscale','log');set(gca,'yscale','log')
     box on
-    
-%     savename = sprintf('../../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
-%     saveas(gcf,savename,'epsc')
 end
 
 % Find peak of structure factors
@@ -79,8 +76,8 @@ SINV_SIM = zeros(length(chiv),1);
 D2S_SIM = zeros(length(chiv),1);
 D2S_MF = zeros(length(chiv),1);
 
-for ii = 1:length(chiv)
-% for ii = plotind
+% for ii = 1:length(chiv)
+for ii = plotind
     CHI = chiv(ii);
     
     % Find peak position
@@ -96,28 +93,45 @@ for ii = 1:length(chiv)
     KS_SIM(ii) = S(IND,1);
     SINV_SIM(ii) = 1./S(IND,2);
     
-    if IND>3  % central differences
-        Kfit = S(IND-2:IND+2,1);
-        Sfit = S(IND-2:IND+2,2);
+%     [SMAX,IND] = findpeaks(S(:,2),'NPeaks',1,'SortStr','descend');
+%     SINV_SIM(ii) = 1/SMAX;
+%     KS_SIM(ii) = S(IND,1);
+    
+    NUMFIT = 3;
+    if IND>NUMFIT  % central differences
+        Kfit = S(IND-NUMFIT:IND+NUMFIT,1);
+        Sfit = S(IND-NUMFIT:IND+NUMFIT,2);
     else  % forward differences
-        Kfit = S(IND:IND+4,1);
-        Sfit = S(IND:IND+4,2);
+        Kfit = S(IND:IND+NUMFIT*2,1);
+        Sfit = S(IND:IND+NUMFIT*2,2);
     end
     
-    % local fit to Lorentzian
-    fit = polyfit(Kfit,1./Sfit,2);
-    SINV_SIM(ii) = polyval(fit,-fit(2)/(2*fit(1)));
-    KS_SIM(ii) = -fit(2)/(2*fit(1));
-    D2S_SIM(ii) = 2*G*fit(1);
+%     % local fit to Lorentzian
+%     fit = polyfit(Kfit,1./Sfit,2);
+%     SINV_SIM(ii) = polyval(fit,-fit(2)/(2*fit(1)));
+%     KS_SIM(ii) = -fit(2)/(2*fit(1));
+%     D2S_SIM(ii) = 2*G*fit(1);
+%     
+%     kplot = logspace(log10(Kfit(1)),log10(Kfit(end)),50);
+%     plots = 1./polyval(fit,kplot);
+%     plot(kplot,plots,'k-','linewidth',2);
+
+    % local fit to Lorentzian (three parameter fit)
+    options = optimset('Display','off',...
+        'TolX',1e-4,'TolFun',1e-4,'MaxFunEvals',1e10,'MaxIter',1e10);
+    x0 = [1,KS_SIM(ii),SINV_SIM(ii)];   % x = [d2s2,ks_sim,sinv_sim]
+    lb = [0.1,0.1,0.01]; ub = [10,5,10];
+    fun = @(x,Kfit) x(3) + (1/2)*x(1)*(Kfit-x(2)).^2;
+    x = lsqcurvefit(fun,x0,Kfit,1./Sfit,lb,ub,options);
+    D2S_SIM(ii) = G*x(1);
+    KS_SIM(ii) = x(2);
+    SINV_SIM(ii) = x(3);
     
-%     % local fit to Lorentzian (fixed peak)
-%     D2S_SIM0 = 1;
-%     options = optimset('Display','off',...
-%         'TolX',1e-4,'TolFun',1e-4,'MaxFunEvals',1e5,'MaxIter',1e5);
-%     lb = 0; ub = 1e5;
-%     fun = @(d2s,Kfit) 1/S(IND,2) + (1/2)*d2s*(Kfit-KS_SIM(ii)).^2;
-%     D2S_SIM(ii) = G*lsqcurvefit(fun,D2S_SIM0,Kfit,1./Sfit,lb,ub,options);
-    
-%     funfit = @(k) S(IND,2) + (1/2)*D2S_SIM(ii)*(k-KS_SIM(ii)).^2;
-%     fplot(funfit,[Kfit(1),Kfit(end)],'k-')
+    funfit = @(k) 1./(SINV_SIM(ii) + (1/2)*D2S_SIM(ii)/G*(k-KS_SIM(ii)).^2);
+    kplot = logspace(log10(Kfit(1)),log10(Kfit(end)),50);
+    plots = funfit(kplot);
+    plot(kplot,plots,'k-','linewidth',2);
+
+    savename = sprintf('../../results/randcopoly-results/structure-figures/sfig-eps%.2f-lam%.2f.eps',EPS,LAM);
+    saveas(gcf,savename,'epsc')
 end
