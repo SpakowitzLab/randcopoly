@@ -26,8 +26,6 @@ dlmwrite(sprintf('data/GC'),data)
 NMV = logspace(-2,2,11);
 LAML_WLC = zeros(length(NMV),1);
 cnt = 1;
-
-NMV = [5,0.5,0.05];
 for NM = NMV
     col = (cnt-1)/(length(NMV)-1);
     NM

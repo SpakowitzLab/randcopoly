@@ -79,16 +79,17 @@ figure;plot(LAMV,D2S/NM);
 
 % Example 4: find peak sharpness vs. chemical correlation
 N=100;  % total of 100 monomers
-NM=1; % each monomer has 100 Kuhn steps
+NM=100; % each monomer has 100 Kuhn steps
 FA=0.5;    % equal chemical composition
-CHI=0.1/NM;  % Flory-Huggins parameter
+CHI=0./NM;  % Flory-Huggins parameter
+RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 
-LAMV = linspace(-1,.99,84);
+LAMV = linspace(-1,.99,501);
 D2GAM2 = zeros(length(LAMV),1);
 for ii = 1:length(LAMV)
-    LAM = LAMV(ii);
+    LAM = LAMV(ii)
     [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM);
-    D2GAM2(ii)=d2gam2;
+    D2GAM2(ii)=d2gam2./(sval^2*RM^2);
 end
-figure;plot(LAMV,log(-D2GAM2))
-xlabel('f_A');ylabel('log|sharpness|')
+figure;plot(LAMV,D2GAM2/NM)
+xlabel('\lambda');ylabel('Peak sharpness')
