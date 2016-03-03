@@ -1,4 +1,6 @@
-% plot structure factors in MF theory and simulations
+% This plots structure factors calculated from
+% mean-field theory and Monte-Carlo simulation
+clear;close all
 
 LAMV = -0.75:0.25:0.25;
 EPSV = [0.01,0.10,1.00];

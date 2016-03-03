@@ -1,5 +1,6 @@
-close all
-clear;
+% This plots critical wavemode and peak sharpness
+% from mean-field theories and Monte-Carlo simulations
+clear;close all
 
 % start code
 LAMV_SIM = [-0.75:0.25:0.25];
@@ -15,11 +16,11 @@ Lbin=1;
 figure(1);hold;set(gca,'fontsize',20)
 figure(2);hold;set(gca,'fontsize',20)
 
+% plot mean-field theory results
 ieps = 1;
 for EPS = EPSV
     col = (ieps-1)/(length(EPSV)-1);
-
-    % plot mean-field theory results
+    
     NM=G*EPS;  % number of Kuhn steps per monomer
     data = load(sprintf('data/WLC_NM%.2f',NM));
     LAMV_MF = data(:,1);
@@ -31,12 +32,11 @@ for EPS = EPSV
     ieps = ieps+1;
 end
 
-
-ieps = 1;
+% plot simulation results
+ieps = 1;p1 = [];p2 = [];
 for EPS = EPSV
     col = (ieps-1)/(length(EPSV)-1);
     
-    % plot simulation results
     KSV_SIM = zeros(length(LAMV_SIM),46);
     D2SV_SIM = zeros(length(LAMV_SIM),46);
     ilam=0;
@@ -49,10 +49,10 @@ for EPS = EPSV
         D2SV_SIM(ilam,:) = D2S_SIM;
     end
     
-    figure(1);plot(LAMV_SIM,KSV_SIM(:,42),'o',...
-        'MarkerEdgeColor',[col 0 1-col],'markersize',12,'linewidth',2)
-    figure(2);plot(LAMV_SIM,D2SV_SIM(:,42),'o',...
-        'MarkerEdgeColor',[col 0 1-col],'markersize',12,'linewidth',2)
+    figure(1);p1(ieps)=plot(LAMV_SIM,KSV_SIM(:,42),'o',...
+        'MarkerEdgeColor',[col 0 1-col],'markersize',12,'linewidth',2);
+    figure(2);p2(ieps)=plot(LAMV_SIM,D2SV_SIM(:,42),'o',...
+        'MarkerEdgeColor',[col 0 1-col],'markersize',12,'linewidth',2);
     ieps = ieps+1;
 end
 
@@ -61,6 +61,7 @@ xlim([-1,.5]);ylim([0,5])
 xlabel('\lambda');ylabel('R_Mq^*');box on
 set(gca,'Xtick',-1:0.25:0.5)
 set(gca,'XtickLabel',{'-1','-0.75','-0.5','-0.25','0','0.25'})
+legend(p1,{'N_M=0.05','N_M=0.50','N_M=5.00'},'location','northeast')
 
 figure(2);
 xlabel('\lambda');
@@ -73,6 +74,7 @@ set(gca,'yscale','linear')
 % ylim([1e-2,1e2])
 set(gca,'Xtick',-1:0.25:0.5)
 set(gca,'XtickLabel',{'-1','-0.75','-0.5','-0.25','0','0.25'})
+legend(p2,{'N_M=0.05','N_M=0.50','N_M=5.00'},'location','northeast')
 
 % end code
 

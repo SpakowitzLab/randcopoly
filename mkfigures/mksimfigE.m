@@ -1,5 +1,6 @@
-% plot radius of gyration of single chains
-clear all;
+% Plot chain radius of gyration of ideal chains
+% and Monte-Carlo simulations
+clear;close all
 
 folder = '../../results/randcopoly-results/scalcbatch-12-15-15';
 folder2 = '../../results/randcopoly-results/rdata-12-15-15';
@@ -51,14 +52,14 @@ for LAM = LAMV
 
     xlabel('\chivG');ylabel('R_g/R_{id}')
     if LAM==-0.75
-        axis([0 20 .98 1.15])
-        set(gca,'Ytick',0.96:0.04:1.14)
-        set(gca,'YtickLabel',{'0.98','1.00','1.04','1.08','1.12','1.14'})
+	axis([0 20 .98 1.12]);box on
+        set(gca,'Ytick',0.96:0.04:1.12)
+        set(gca,'YtickLabel',{'0.98','1.00','1.04','1.08','1.12'})
         savename = sprintf('../../results/randcopoly-results/random-simulation/figure8A.eps');
     elseif LAM==0.00
-        axis([0 10 .98 1.15])
-        set(gca,'Ytick',0.96:0.04:1.14)
-        set(gca,'YtickLabel',{'','1.00','1.04','1.08','1.12','1.14'})
+        axis([0 10 .98 1.12]);box on
+        set(gca,'Ytick',0.96:0.04:1.12)
+        set(gca,'YtickLabel',{'','1.00','1.04','1.08','1.12'})
         savename = sprintf('../../results/randcopoly-results/random-simulation/figure8B.eps');
     else
         error('axis not defined')

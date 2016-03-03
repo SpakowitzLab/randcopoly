@@ -1,6 +1,5 @@
+% Plot SINV from mean-field theory and Monte-Carlo simulations
 clear;close all
-
-% Plot SINV
 
 % start code
 LAMV = [-0.75,0.00];
