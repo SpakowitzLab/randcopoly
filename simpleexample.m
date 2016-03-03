@@ -28,10 +28,9 @@ CHI=0.5*CHIS;  % Flory-Huggins parameter
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 K0=1e-2;  % minimum wavevector
 KF=1e2;   % maximum wavevector
-NK=2001;  % number of wavevectors
+NK=21;  % number of wavevectors
 K=transpose(logspace(log10(K0),log10(KF),NK))/RM;
 
-% evaluate s2inv
 S2INV=s2invwlc(N,NM,FA,LAM,K);
 figure;set(gca,'fontsize',20)
 loglog(RM*K,1./(-2*CHI+S2INV),'k-','linewidth',2);

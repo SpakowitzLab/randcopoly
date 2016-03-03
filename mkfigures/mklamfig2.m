@@ -59,6 +59,6 @@ figure(1);xlabel('\lambda');ylabel('R_Mq^*');box on
 figure(2);xlabel('\lambda');ylabel('\chi_Sv');box on
 figure(3);set(gca,'yscale','log');box on
 xlabel('\lambda_L-\lambda');ylabel('Peak sharpness \Delta_\psi')
-ylim([1e-2,1e3])
+axis([-1.5,1,1e-4,1e4])
 
 figure(3);saveas(gcf,'peaksharpness','epsc')
