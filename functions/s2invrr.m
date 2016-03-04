@@ -27,9 +27,9 @@ function [val]=gammaq2(N,NM,LAM,k)
 
 % Reset N to a row vector if entered as a column
 
-if iscolumn(N)==1
-    N=transpose(N);
-end
+% if iscolumn(N)==1
+%     N=transpose(N);
+% end
 
 val=zeros(length(k),length(N));
 

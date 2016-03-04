@@ -14,18 +14,17 @@ N=100;  % total of 100 monomers
 NM=0.1; % each monomer has 0.1 Kuhn steps
 FA=0.5; % equal chemical composition
 LAM=-0.75;  % statistically anti-correlated random copolymer
+RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 
 [KS,sval,D2GAM2]=kmaxwlc(N,NM,FA,LAM);
 CHIS=0.5*sval;  % spinodal
 
 fprintf('Results :\nSpinodal chivN_M= %.2f\n',CHIS*NM)
-fprintf('Critical wavemode q* = %.2f\n',KS)
-fprintf('Second der. of structure factor at q* = %.2f\n',D2GAM2)
+fprintf('Critical wavemode R_Mq* = %.2f\n',KS*RM)
+fprintf('Second der. of structure factor at q* = %.2f\n',D2GAM2/(sval^2*RM^2*NM))
 
 % Simple Example 2: plot density-density correlations
 CHI=0.5*CHIS;  % Flory-Huggins parameter
-
-RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 K0=1e-2;  % minimum wavevector
 KF=1e2;   % maximum wavevector
 NK=21;  % number of wavevectors
