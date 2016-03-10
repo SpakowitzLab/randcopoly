@@ -1,7 +1,9 @@
 randcopoly
 =======================================
 
-This is a function that uses polymer field theory to find phase behavior of random copolymers. The polymers are modeled as wormlike chains, Gaussian chains, and perfectly rigid rods. Phase transition spinodal and critical wavemode of phase segregation can be found at different chemical correlation \lambda and monomer rigidities N.
+[//]: <> (<https://github.com/shifanmao1989/randcopoly.git>)
+
+This is a function that uses polymer field theory to find phase behavior of random copolymers. The polymers are modeled as wormlike chains, Gaussian chains, and perfectly rigid rods. Phase transition spinodal and critical wavemode of phase segregation can be found at different chemical correlation $\lambda$ and monomer rigidities $N$.
 
 Installation
 --------------

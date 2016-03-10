@@ -35,7 +35,7 @@ for I=1:length(CHI)
 end
 xlabel('R_Mq');ylabel('S(q)')
 set(gca,'xscale','log');set(gca,'yscale','log');
-axis([K0 KF 1e-4 1e-1])
+axis([K0 KF 1e-4 1e-1]);box on
 saveas(gcf,'example_figures/example1.png')
 
 % Example 2: find spinodal vs. fraction of A monomers
@@ -51,7 +51,7 @@ for ii = 1:length(FAV)
     CHIS(ii)=0.5*sval;  % spinodal
 end
 figure;plot(FAV,CHIS*NM)
-xlabel('f_A');ylabel('\chi_S v N_M')
+xlabel('f_A');ylabel('\chi_S v N_M');box on
 saveas(gcf,'example_figures/example2.png')
 
 % Example 3: find critical wavemode and spinodal vs. chemical correlation
