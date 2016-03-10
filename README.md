@@ -1,7 +1,7 @@
 randcopoly
 =======================================
 
-<https://github.com/shifanmao1989/randcopoly.git>
+#<https://github.com/shifanmao1989/randcopoly.git>
 
 This is a function that uses polymer field theory to find phase behavior of random copolymers. The polymers are modeled as wormlike chains, Gaussian chains, and perfectly rigid rods. Phase transition spinodal and critical wavemode of phase segregation can be found at different chemical correlation and monomer rigidities.
 
@@ -14,7 +14,6 @@ addpath('functions')
 
 Example Usage
 --------------
-
 Here is an example of using the code to calculate the structure factor (density-density correlations) of flexible, anti-correlated random copolymers.
 
 ``` matlab
@@ -48,18 +47,22 @@ axis([K0 KF 1e-2 1e1])
 ```
 ![](example_figures/example1.png)
 
-example.m provides a number of examples including
-- Example 1: plot density-density correlations
-- Example 2: find spinodal vs. chemical composition
-- Example 3: find critical wavemode vs. chemical correlation
-- Example 4: find peak sharpness vs. chemical correlation
+As another example, the spinodal (order-disorder transition) of random copolymers
 
-plotsim.m compares between mean-field theory and Monte-Carlo simulations
-by evaluating density-density correlations. It requires external folder ../results
-containing simulation results
+``` matlab
+% Example 2: find spinodal vs. fraction of A monomers
+N=100;  % total of 100 monomers
+NM=10; % each monomer has 10 Kuhn steps
+LAM=0; % ideal random copolymer
 
-folder functions/
-consists of functions used in simpleexample.m, example.m, and scripts in mkfigures
-
-folder mkfigures/
-consists of scripts for generating figures in manuscript
+FAV = linspace(0.1,0.9,38);
+CHIS = zeros(length(FAV),1);
+for ii = 1:length(FAV)
+    FA = FAV(ii);
+    [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM);
+    CHIS(ii)=0.5*sval;  % spinodal
+end
+figure;plot(FAV,CHIS*NM)
+xlabel('f_A');ylabel('\chi_S v N_M')
+```
+![](example_figures/example2.png)
