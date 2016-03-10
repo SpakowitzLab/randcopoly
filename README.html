@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:6419/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>README.md - Grip</title>
+  <link rel="icon" href="http://localhost:6419/__/grip/static/favicon.ico">
+  <link rel="stylesheet" href="./README_files/frameworks-9c384b6de8a28ff5bd13fca0d2a8fc0fd5531ca36c41b06e94d591e0a5d72837.css">
+  <link rel="stylesheet" href="./README_files/github-164e36c95b8b2e7edffe11b313847cfb1784ec23bfc140b799037dee94f5a5fc.css">
+  <style>
+    /* Page tweaks */
+    .preview-page {
+      margin-top: 64px;
+    }
+    /* Discussion tweaks */
+    .discussion-timeline.wide {
+      width: 920px;
+    }
+    .timeline-comment-wrapper > .timeline-comment:after,
+    .timeline-comment-wrapper > .timeline-comment:before {
+      content: none;
+    }
+  </style>
+<style type="text/css"></style></head>
+<body>
+  <div class="page">
+    <div id="preview-page" class="preview-page" data-autorefresh-url="/__/grip/refresh/">
+    <div class="container">
+      
+      
+      <div class="repository-with-sidebar repo-container with-full-navigation">
+
+        
+          <div class="repository-content">
+            <div id="readme" class="boxed-group flush clearfix announce instapaper_body md">
+              
+                <h3>
+                  <span class="octicon octicon-book"></span>
+                  README.md - Grip
+                </h3>
+              
+              <div id="grip-content" class="markdown-body entry-content">
+                <h1>
+<a id="user-content-randcopoly" class="anchor" href="http://localhost:6419/#randcopoly" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>randcopoly</h1>
+
+<p>This is a package that uses polymer field theory to find phase behavior of random copolymers.
+The polymers are modeled as wormlike chains.
+Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it can calculate</p>
+
+<ul>
+<li>structure factor (density-density correlation)</li>
+<li>phase transition Flory-Huggins paramter</li>
+<li><p>critical wavemode of phase segregation</p></li>
+<li><p>This package was developed by Shifan Mao, Quinn McPherson, and Andrew Spakowitz *  [1] </p></li>
+</ul>
+
+<h2>
+<a id="user-content-installation" class="anchor" href="http://localhost:6419/#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Open Matlab and add the functions in folder \functions\</p>
+
+<div class="highlight highlight-source-matlab"><pre><span class="pl-k">addpath</span>(<span class="pl-s"><span class="pl-pds">'</span>functions<span class="pl-pds">'</span></span>)</pre></div>
+
+<h2>
+<a id="user-content-example-usage" class="anchor" href="http://localhost:6419/#example-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h2>
+
+<p>Here is an example of using the code to calculate the structure factor (density-density correlations) of rigid, anti-correlated random copolymers.</p>
+
+<div class="highlight highlight-source-matlab"><pre><span class="pl-c">% Example 1: plot density-density correlations vs wavevector at different CHI</span>
+N=<span class="pl-c1">100</span>;  <span class="pl-c">% total of 100 monomers</span>
+NM=<span class="pl-c1">0.1</span>; <span class="pl-c">% each monomer has 0.1 Kuhn steps</span>
+LAM=-<span class="pl-c1">0.75</span>; <span class="pl-c">% anti-correlated random copolymer</span>
+FA=<span class="pl-c1">0.5</span>;    <span class="pl-c">% equal chemical composition</span>
+
+<span class="pl-c">% find spinodal CHIS</span>
+[kval,sval]=kmaxwlc(N,NM,FA,LAM);
+CHIS=<span class="pl-c1">0.5</span>*sval;
+CHI=CHIS*[<span class="pl-c1">0</span> <span class="pl-c1">0.2</span> <span class="pl-c1">0.4</span> <span class="pl-c1">0.6</span> <span class="pl-c1">0.8</span>];
+
+RM=<span class="pl-k">sqrt</span>(r2wlc(NM));  <span class="pl-c">% end-to-end distance of a monomers</span>
+K0=<span class="pl-c1">1e-2</span>;  <span class="pl-c">% minimum wavevector</span>
+KF=<span class="pl-c1">1e2</span>;   <span class="pl-c">% maximum wavevector</span>
+NK=<span class="pl-c1">201</span>;  <span class="pl-c">% number of wavevectors</span>
+K=<span class="pl-c1">transpose</span>(<span class="pl-k">logspace</span>(<span class="pl-k">log10</span>(K0),<span class="pl-k">log10</span>(KF),NK))/RM;
+
+<span class="pl-c">% evaluate s2inv</span>
+[SINV]=s2invwlc(N,NM,FA,LAM,K);
+<span class="pl-c1">figure</span>;<span class="pl-c1">hold</span>
+<span class="pl-k">for</span> I=<span class="pl-c1">1</span>:<span class="pl-k">length</span>(CHI)
+    COL=(I-<span class="pl-c1">1</span>)/(<span class="pl-k">length</span>(CHI)-<span class="pl-c1">1</span>);
+    <span class="pl-c1">loglog</span>(RM*K,<span class="pl-c1">1</span>./(-<span class="pl-c1">2</span>*CHI(I)+SINV),<span class="pl-s"><span class="pl-pds">'</span>-<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>LineWidth<span class="pl-pds">'</span></span>,<span class="pl-c1">2</span>,<span class="pl-s"><span class="pl-pds">'</span>Color<span class="pl-pds">'</span></span>,[COL <span class="pl-c1">0</span> <span class="pl-c1">1</span>-COL])
+<span class="pl-k">end</span>
+<span class="pl-c1">xlabel</span>(<span class="pl-s"><span class="pl-pds">'</span>R_Mq<span class="pl-pds">'</span></span>);<span class="pl-c1">ylabel</span>(<span class="pl-s"><span class="pl-pds">'</span>S(q)<span class="pl-pds">'</span></span>)
+<span class="pl-c1">set</span>(<span class="pl-c1">gca</span>,<span class="pl-s"><span class="pl-pds">'</span>xscale<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>log<span class="pl-pds">'</span></span>);<span class="pl-c1">set</span>(<span class="pl-c1">gca</span>,<span class="pl-s"><span class="pl-pds">'</span>yscale<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>log<span class="pl-pds">'</span></span>);
+<span class="pl-c1">axis</span>([K0 KF <span class="pl-c1">1e-2</span> <span class="pl-c1">1e1</span>])</pre></div>
+
+<p><a href="./README_files/example1.png" target="_blank"><img src="./README_files/example1.png" alt="" style="max-width:100%;"></a></p>
+
+<p>As another example, the spinodal (order-disorder transition) of flexible random copolymers</p>
+
+<div class="highlight highlight-source-matlab"><pre><span class="pl-c">% Example 2: find spinodal vs. fraction of A monomers</span>
+N=<span class="pl-c1">100</span>;  <span class="pl-c">% total of 100 monomers</span>
+NM=<span class="pl-c1">10</span>; <span class="pl-c">% each monomer has 10 Kuhn steps</span>
+LAM=<span class="pl-c1">0</span>; <span class="pl-c">% ideal random copolymer</span>
+
+FAV = <span class="pl-k">linspace</span>(<span class="pl-c1">0.1</span>,<span class="pl-c1">0.9</span>,<span class="pl-c1">38</span>);
+CHIS = <span class="pl-k">zeros</span>(<span class="pl-k">length</span>(FAV),<span class="pl-c1">1</span>);
+<span class="pl-k">for</span> ii = <span class="pl-c1">1</span>:<span class="pl-k">length</span>(FAV)
+    FA = FAV(ii);
+    [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM);
+    CHIS(ii)=<span class="pl-c1">0.5</span>*sval;  <span class="pl-c">% spinodal</span>
+<span class="pl-k">end</span>
+<span class="pl-c1">figure</span>;<span class="pl-c1">plot</span>(FAV,CHIS*NM)
+<span class="pl-c1">xlabel</span>(<span class="pl-s"><span class="pl-pds">'</span>f_A<span class="pl-pds">'</span></span>);<span class="pl-c1">ylabel</span>(<span class="pl-s"><span class="pl-pds">'</span>\chi_S v N_M<span class="pl-pds">'</span></span>)</pre></div>
+
+<p><a href="./README_files/example2.png" target="_blank"><img src="./README_files/example2.png" alt="" style="max-width:100%;"></a></p>
+
+<p>[1] Mao, S and MacPherson, Q and He, S and Coletta, E and Spakowitz, A "Impact of conformational and chemical correlations on microphase segregation in random copolymers". <em>Macromolecules</em> in review (2016)</p>
+
+              </div>
+            </div>
+          </div>
+        
+
+      </div>
+    </div>
+  </div>
+  <div>&nbsp;</div>
+  </div><script>
+    function showCanonicalImages() {
+      var images = document.getElementsByTagName('img');
+      if (!images) {
+        return;
+      }
+      for (var index = 0; index < images.length; index++) {
+        var image = images[index];
+        if (image.getAttribute('data-canonical-src') && image.src !== image.getAttribute('data-canonical-src')) {
+          image.src = image.getAttribute('data-canonical-src');
+        }
+      }
+    }
+
+    function scrollToHash() {
+      if (location.hash && !document.querySelector(':target')) {
+        var element = document.getElementById('user-content-' + location.hash.slice(1));
+        if (element) {
+           element.scrollIntoView();
+        }
+      }
+    }
+
+    function autorefreshContent(eventSourceUrl) {
+      var initialTitle = document.title;
+      var contentElement = document.getElementById('grip-content');
+      var source = new EventSource(eventSourceUrl);
+      var isRendering = false;
+
+      source.onmessage = function(ev) {
+        var msg = JSON.parse(ev.data);
+        if (msg.updating) {
+          isRendering = true;
+          document.title = '(Rendering) ' + document.title;
+        } else {
+          isRendering = false;
+          document.title = initialTitle;
+          contentElement.innerHTML = msg.content;
+          showCanonicalImages();
+        }
+      }
+
+      source.onerror = function(e) {
+        if (e.readyState === EventSource.CLOSED && isRendering) {
+          isRendering = false;
+          document.title = initialTitle;
+        }
+      }
+    }
+
+    window.onhashchange = function() {
+      scrollToHash();
+    }
+
+    window.onload = function() {
+      scrollToHash();
+    }
+
+    showCanonicalImages();
+
+    var autorefreshUrl = document.getElementById('preview-page').getAttribute('data-autorefresh-url');
+    if (autorefreshUrl) {
+      autorefreshContent(autorefreshUrl);
+    }
+  </script>
+
+</body></html>

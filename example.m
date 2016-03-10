@@ -43,14 +43,14 @@ N=100;  % total of 100 monomers
 NM=10; % each monomer has 10 Kuhn steps
 LAM=0; % ideal random copolymer
 
-FAV = linspace(0.1,0.9,38);
+FAV = linspace(0.1,0.9,101);
 CHIS = zeros(length(FAV),1);
 for ii = 1:length(FAV)
     FA = FAV(ii);
     [kval,sval,d2gam2]=kmaxwlc(N,NM,FA,LAM);
     CHIS(ii)=0.5*sval;  % spinodal
 end
-figure;plot(FAV,CHIS*NM)
+figure;plot(FAV,CHIS*NM,'k-','linewidth',2)
 xlabel('f_A');ylabel('\chi_S v N_M');box on
 saveas(gcf,'example_figures/example2.png')
 
