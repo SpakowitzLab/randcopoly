@@ -35,3 +35,4 @@ figure;set(gca,'fontsize',20)
 loglog(RM*K,1./(-2*CHI+S2INV),'k-','linewidth',2);
 xlabel('R_Mq');ylabel('S(q)')
 axis([K0 KF 1e-4 1e1])
+saveas(gcf,'fig1.eps','epsc')    
