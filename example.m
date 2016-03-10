@@ -11,7 +11,7 @@ clear
 
 % Example 1: plot density-density correlations vs wavevector at different CHI
 N=100;  % total of 100 monomers
-NM=10; % each monomer has 10 Kuhn steps
+NM=0.1; % each monomer has 0.1 Kuhn steps
 LAM=-0.75; % anti-correlated random copolymer
 FA=0.5;    % equal chemical composition
 
@@ -35,7 +35,7 @@ for I=1:length(CHI)
 end
 xlabel('R_Mq');ylabel('S(q)')
 set(gca,'xscale','log');set(gca,'yscale','log');
-axis([K0 KF 1e-2 1e1])
+axis([K0 KF 1e-4 1e-1])
 saveas(gcf,'example_figures/example1.png')
 
 % Example 2: find spinodal vs. fraction of A monomers

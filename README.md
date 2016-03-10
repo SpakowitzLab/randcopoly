@@ -14,7 +14,7 @@ addpath('functions')
 
 Example Usage
 --------------
-Here is an example of using the code to calculate the structure factor (density-density correlations) of flexible, anti-correlated random copolymers.
+Here is an example of using the code to calculate the structure factor (density-density correlations) of rigid, anti-correlated random copolymers.
 
 ``` matlab
 % Example 1: plot density-density correlations vs wavevector at different CHI
@@ -47,7 +47,7 @@ axis([K0 KF 1e-2 1e1])
 ```
 ![](example_figures/example1.png)
 
-As another example, the spinodal (order-disorder transition) of random copolymers
+As another example, the spinodal (order-disorder transition) of flexible random copolymers
 
 ``` matlab
 % Example 2: find spinodal vs. fraction of A monomers
