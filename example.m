@@ -11,8 +11,8 @@ clear
 
 % Example 1: plot density-density correlations vs wavevector at different CHI
 N=100;  % total of 100 monomers
-NM=100; % each monomer has 100 Kuhn steps
-LAM=0.99; % anti-correlated random copolymer
+NM=10; % each monomer has 10 Kuhn steps
+LAM=-0.75; % anti-correlated random copolymer
 FA=0.5;    % equal chemical composition
 
 % find spinodal CHIS
@@ -35,11 +35,12 @@ for I=1:length(CHI)
 end
 xlabel('R_Mq');ylabel('S(q)')
 set(gca,'xscale','log');set(gca,'yscale','log');
-axis([K0 KF 1e-1 1e2])
+axis([K0 KF 1e-2 1e1])
+saveas(gcf,'example_figures/example1.png')
 
 % Example 2: find spinodal vs. fraction of A monomers
 N=100;  % total of 100 monomers
-NM=100; % each monomer has 100 Kuhn steps
+NM=10; % each monomer has 10 Kuhn steps
 LAM=0; % ideal random copolymer
 
 FAV = linspace(0.1,0.9,38);
@@ -51,6 +52,7 @@ for ii = 1:length(FAV)
 end
 figure;plot(FAV,CHIS*NM)
 xlabel('f_A');ylabel('\chi_S v N_M')
+saveas(gcf,'example_figures/example2.png')
 
 % Example 3: find critical wavemode and spinodal vs. chemical correlation
 N=100;  % total of 100 monomers
