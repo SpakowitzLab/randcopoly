@@ -1,17 +1,17 @@
 randcopoly
 =======================================
 
-This is a package that uses polymer field theory to find phase behavior of random copolymers.
+This is a package that uses polymer field theory to find phase behavior of random copolymers melt.
 The polymers are modeled as wormlike chains.
-Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it calculates
+Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it calculates the melt
 * structure factor (density-density correlation)
 * phase transition Flory-Huggins paramter
 * critical wavemode of phase segregation
 
 The package provides two of functions `s2invwlc()` and `kmaxwlc()`.
-`s2invwlc()` calculates the structure factor of random copolymers in the homogeneous phase.
+`s2invwlc()` calculates the structure factor of semiflexible random copolymers in the homogeneous phase.
 `kmaxwlc()` finds the critical wavemode (location of peak) in the structure factor.
-Similar codes can be found for Gaussian chain (`s2invgc()` and `kmaxgc()`) and perfectly rigid rod (`s2invrr()` and `kmaxrr()`).
+Similar codes can be found for random copolymers with Gaussian chain model (`s2invgc()` and `kmaxgc()`) and perfectly rigid rod (`s2invrr()` and `kmaxrr()`).
 
 *This package was developed by Shifan Mao, Quinn McPherson, and Andrew Spakowitz* <cite>[1]</cite>
 
