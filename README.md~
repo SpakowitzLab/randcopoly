@@ -1,12 +1,7 @@
 randcopoly
 =======================================
 
-This is a package that uses polymer field theory to find phase behavior of random copolymers.
-The polymers are modeled as wormlike chains.
-Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it can calculate
-- structure factor (density-density correlation)
-- phase transition Flory-Huggins paramter
-- critical wavemode of phase segregation
+This is a function that uses polymer field theory to find phase behavior of random copolymers. The polymers are modeled as wormlike chains, Gaussian chains, and perfectly rigid rods. Phase transition spinodal and critical wavemode of phase segregation can be found at different chemical correlation \lambda and monomer rigidities N.
 
 Installation
 --------------
