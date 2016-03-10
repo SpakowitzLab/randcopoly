@@ -4,7 +4,7 @@ randcopoly
 This is a package that uses polymer field theory to find phase behavior of random copolymers melt.
 The polymers are modeled as wormlike chains.
 Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it calculates the melt
-* structure factor (density-density correlation)
+* structure factor (density-density correlations)
 * phase transition Flory-Huggins paramter
 * critical wavemode of phase segregation
 
@@ -24,7 +24,7 @@ addpath('functions')
 
 Example Usage
 --------------
-Here is an example of using the code to calculate the structure factor (density-density correlations) of rigid, anti-correlated random copolymers.
+Here is an example of using the package to calculate the structure factor (density-density correlations) of rigid, anti-correlated random copolymers.
 
 ``` matlab
 % Example 1: plot density-density correlations vs wavevector at different CHI
@@ -36,7 +36,7 @@ FA=0.5;    % equal chemical composition
 % find spinodal CHIS
 [kval,sval]=kmaxwlc(N,NM,FA,LAM);
 CHIS=0.5*sval;
-CHI=CHIS*[0 0.2 0.4 0.6 0.8];
+CHI=CHIS*[0 0.2 0.4 0.6 0.8];  % range of CHI values (scaled by spinodal)
 
 RM=sqrt(r2wlc(NM));  % end-to-end distance of a monomers
 K0=1e-2;  % minimum wavevector
@@ -51,13 +51,12 @@ for I=1:length(CHI)
     COL=(I-1)/(length(CHI)-1);
     loglog(RM*K,1./(-2*CHI(I)+SINV),'-','LineWidth',2,'Color',[COL 0 1-COL])
 end
-xlabel('R_Mq');ylabel('S(q)')
-set(gca,'xscale','log');set(gca,'yscale','log');
-axis([K0 KF 1e-2 1e1])
+xlabel('R_Mq');ylabel('S(q)');box on;
+set(gca,'xscale','log');set(gca,'yscale','log');axis([K0 KF 1e-2 1e1])
 ```
-![](example_figures/example1.png)
+<img src="./example_figures/example1.png" width="800" height="600" />
 
-As another example, the spinodal (order-disorder transition) of flexible random copolymers
+As another example, the spinodal (order-disorder transition) of flexible random copolymers can be calculated as follows
 
 ``` matlab
 % Example 2: find spinodal vs. fraction of A monomers
@@ -75,6 +74,6 @@ end
 figure;plot(FAV,CHIS*NM,'k-','linewidth',2)
 xlabel('f_A');ylabel('\chi_S v N_M')
 ```
-![](example_figures/example2.png)
+<img src="./example_figures/example2.png" width="800" height="600" />
 
 [1] Mao, S and MacPherson, Q and He, S and Coletta, E and Spakowitz, A "Impact of conformational and chemical correlations on microphase segregation in random copolymers". *Macromolecules* in review (2016)
