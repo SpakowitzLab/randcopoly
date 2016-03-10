@@ -5,15 +5,19 @@ randcopoly
 
 This is a function that uses polymer field theory to find phase behavior of random copolymers. The polymers are modeled as wormlike chains, Gaussian chains, and perfectly rigid rods. Phase transition spinodal and critical wavemode of phase segregation can be found at different chemical correlation and monomer rigidities.
 
-simpleexample.m provides a simple example that
-- finds spinodal
-- finds critical wavemode of instability
-- calculates peak sharpness
-
-
-Here is an example
-
+Installation
+--------------
+Open Matlab and add the functions in folder \functions\
+``` matlab
+addpath('functions')
 ```
+
+Example Usage
+--------------
+
+Here is an example of using the code to calculate the structure factor (density-density correlations) of flexible, anti-correlated random copolymers.
+
+``` matlab
 % Example 1: plot density-density correlations vs wavevector at different CHI
 N=100;  % total of 100 monomers
 NM=10; % each monomer has 10 Kuhn steps
