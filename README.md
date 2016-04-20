@@ -1,7 +1,22 @@
 randcopoly
 =======================================
 
-This folder contains Matlab scripts to calculate and plot the structure factor and spinodal decomposition of an A-B semiflexible random copolymer based on a polymer field theoretic formulation [1]. For a given chemical correlation λ, number of monomers N, and monomer length (in Kuhn segments) NM, this package calculates the melt structure factor (density-density correlations), the spinodal Flory-Huggins parameter χS, and critical wavemode of phase segregation q*. The folder "functions" provides functions "s2invwlc" and "kmaxwlc" that calculate the structure factor of semiflexible (wormlike chain model) random copolymer ("s2invwlc") and the critical wavemode (location of peak) in the structure factor ("kmaxwlc"). Similar codes can be found for flexible random copolymers based on the Gaussian chain model ("s2invgc" and "kmaxgc") and for perfectly rigid random copolymers ("s2invrr" and "kmaxrr").
+This folder contains Matlab scripts to calculate and plot the 
+structure factor and spinodal decomposition of an A-B semiflexible random copolymer based
+on a polymer field theoretic formulation [1].  
+For a given 
+chemical correlation λ, number of monomers N, and monomer length (in Kuhn segments) N<sub>M</sub>, 
+this package calculates the melt
+structure factor (density-density correlations), 
+the spinodal Flory-Huggins parameter χ<sub>S</sub>, 
+and critical wavemode of phase segregation q<sup>*</sup>.
+The folder "functions" provides functions `s2invwlc` and `kmaxwlc` that 
+calculate the structure factor of semiflexible (wormlike chain model) random
+copolymer (`s2invwlc`) and the critical wavemode (location of peak) in the structure factor (`kmaxwlc`). 
+Similar codes
+can be found for flexible random copolymers based on the Gaussian chain model (`s2invgc` and `kmaxgc`) 
+and for perfectly rigid random copolymers (`s2invrr` and `kmaxrr`).
+<!--See the "README" file for further details.-->
 
 <!--This is a package that uses polymer field theory to find phase behavior of random copolymers melt.-->
 <!--The polymers are modeled as wormlike chains.-->
