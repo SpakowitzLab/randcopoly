@@ -1,17 +1,19 @@
 randcopoly
 =======================================
 
-This is a package that uses polymer field theory to find phase behavior of random copolymers melt.
-The polymers are modeled as wormlike chains.
-Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it calculates the melt
-* structure factor (density-density correlations)
-* phase transition Flory-Huggins paramter
-* critical wavemode of phase segregation
+This folder contains Matlab scripts to calculate and plot the structure factor and spinodal decomposition of an A-B semiflexible random copolymer based on a polymer field theoretic formulation [1]. For a given chemical correlation λ, number of monomers N, and monomer length (in Kuhn segments) NM, this package calculates the melt structure factor (density-density correlations), the spinodal Flory-Huggins parameter χS, and critical wavemode of phase segregation q*. The folder "functions" provides functions "s2invwlc" and "kmaxwlc" that calculate the structure factor of semiflexible (wormlike chain model) random copolymer ("s2invwlc") and the critical wavemode (location of peak) in the structure factor ("kmaxwlc"). Similar codes can be found for flexible random copolymers based on the Gaussian chain model ("s2invgc" and "kmaxgc") and for perfectly rigid random copolymers ("s2invrr" and "kmaxrr").
 
-The package provides two of functions `s2invwlc()` and `kmaxwlc()`.
-`s2invwlc()` calculates the structure factor of semiflexible random copolymers in the homogeneous phase.
-`kmaxwlc()` finds the critical wavemode (location of peak) in the structure factor.
-Similar codes can be found for random copolymers with Gaussian chain model (`s2invgc()` and `kmaxgc()`) and perfectly rigid rod (`s2invrr()` and `kmaxrr()`).
+<!--This is a package that uses polymer field theory to find phase behavior of random copolymers melt.-->
+<!--The polymers are modeled as wormlike chains.-->
+<!--Given chemical correlation \lambda, number of monomers N, and monomer rigidity NM, it calculates the melt-->
+<!--* structure factor (density-density correlations)-->
+<!--* phase transition Flory-Huggins paramter-->
+<!--* critical wavemode of phase segregation-->
+
+<!--The package provides two of functions `s2invwlc()` and `kmaxwlc()`.-->
+<!--`s2invwlc()` calculates the structure factor of semiflexible random copolymers in the homogeneous phase.-->
+<!--`kmaxwlc()` finds the critical wavemode (location of peak) in the structure factor.-->
+<!--Similar codes can be found for random copolymers with Gaussian chain model (`s2invgc()` and `kmaxgc()`) and perfectly rigid rod (`s2invrr()` and `kmaxrr()`).-->
 
 *This package was developed by Shifan Mao, Quinn MacPherson, and Andrew Spakowitz* <cite>[1]</cite>
 
