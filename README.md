@@ -13,7 +13,7 @@ The package provides two of functions `s2invwlc()` and `kmaxwlc()`.
 `kmaxwlc()` finds the critical wavemode (location of peak) in the structure factor.
 Similar codes can be found for random copolymers with Gaussian chain model (`s2invgc()` and `kmaxgc()`) and perfectly rigid rod (`s2invrr()` and `kmaxrr()`).
 
-*This package was developed by Shifan Mao, Quinn McPherson, and Andrew Spakowitz* <cite>[1]</cite>
+*This package was developed by Shifan Mao, Quinn MacPherson, and Andrew Spakowitz* <cite>[1]</cite>
 
 Installation
 --------------
