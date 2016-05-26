@@ -20,7 +20,7 @@ for NM = NMV
     % Find Lifshitz point
     IND = find(KS<=1e-1);
     LAML_WLC = LAMV(IND(1));
-    figure(3);plot(LAML_WLC-LAMV,D2S,'linewidth',2,'color',[col 0 1-col])
+    figure(3);plot(-LAML_WLC+LAMV,D2S,'linewidth',2,'color',[col 0 1-col])
     
     cnt = cnt+1;
 end
@@ -38,7 +38,7 @@ figure(2);plot(LAMV,CHIS,'linewidth',3,'color',[0 0 0])
 % Find Lifshitz point
 IND = find(KS<=1e-1);
 LAML_GC = LAMV(IND(1));
-figure(3);plot(LAML_GC-LAMV,D2S,'linewidth',3,'color',[0 0 0])
+figure(3);plot(-LAML_GC+LAMV,D2S,'linewidth',3,'color',[0 0 0])
 
 % Rigid rod
 data = load(sprintf('data/RR'));
@@ -53,7 +53,7 @@ figure(2);plot(LAMV,CHIS,'--','linewidth',3,'color',[0 0 0])
 % Find Lifshitz point
 IND = find(KS<=1e-1);
 LAML_RR = -0.1;
-figure(3);plot(LAML_RR-LAMV,D2S,'--','linewidth',3,'color',[0 0 0])
+figure(3);plot(-LAML_RR+LAMV,D2S,'--','linewidth',3,'color',[0 0 0])
 
 figure(1);xlabel('\lambda');ylabel('R_Mq^*');box on
 figure(2);xlabel('\lambda');ylabel('\chi_Sv');box on
