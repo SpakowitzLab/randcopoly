@@ -2,3 +2,8 @@
 mkfigures/*.eps
 mkfigures/data
 README_files/
+old/
+Presentations/
+exp-data/
+dsc/
+savedata/
