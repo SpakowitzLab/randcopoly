@@ -11,11 +11,10 @@ data = load(strcat('exp-data/',FILENAME,'.csv'));  % SAXS data with q in A^(-1)
                                            % 30wt ~= 16mol%
 % preset parameters in theory
 N=100;  % total of 100 monomers
-rm = 31.84; % estimate end-to-end distance of a "chemical monomer" in unit Angstrom
-FA=0.126;   % equal chemical composition
+[FA,rm]=calcmol(1500,0.3);
 q = data(:,1);
 s = data(:,2:end);
-load(strcat(FILENAME,'.mat'));
+load(strcat('savedata/',FILENAME,'.mat'));
 
 %% PLOT 1: Structure factors
 NFIT = length(TK);
@@ -39,10 +38,12 @@ box on
 figure;
 subplot(2,1,1);
 plot(-1./TK,CHI,'ko')
+xlabel('-1/T (K^{-1})');ylabel('\chi')
 
 iq = find(q==qf(1));
 subplot(2,1,2);
 plot(-1./TK,1./s(iq,:),'ko')
+xlabel('-1/T (K^{-1})');ylabel('S^{-1}(q=0)')
 
 %% PLOT 3: Phase diagram
 FAV = linspace(0.1,0.9,101);
@@ -57,6 +58,8 @@ plot(FAV,CHISV*NM,'k-','linewidth',2)
 for IT=1:NFIT
     col = (IT-1)/(NFIT-1);
     plot(FA,CHI(IT)*NM,'.','color',[col 0 1-col],...
+        'MarkerSize',20);
+    plot(0.2382,CHI(IT)*NM,'.','color',[col 0 1-col],...
         'MarkerSize',20);
 end
 xlabel('f_A');ylabel('\chi_S v N_M')

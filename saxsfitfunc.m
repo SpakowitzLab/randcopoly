@@ -1,4 +1,4 @@
-function F = saxsfit2(x)
+function F = saxsfitfunc(x)
 
 global sf qf N rm FA NFIT
 
