@@ -93,4 +93,4 @@ xlabel('f_A');ylabel('\chi_S v N_M')
 ```
 <img src="./example_figures/example2.png" width="800" height="600" />
 
-[1] S. Mao, Q. J. MacPherson, S. He, E. Coletta, and A. J. Spakowitz. "Impact of conformational and chemical correlations on microphase segregation in random copolymers," *Macromolecules* in submitted (2015). 
+[1] Mao, Shifan, Quinn J. MacPherson, Steve S. He, Elyse Coletta, and Andrew J. Spakowitz. "Impact of Conformational and Chemical Correlations on Microphase Segregation in Random Copolymers." Macromolecules (2016).
